@@ -1,6 +1,7 @@
 package com.helmi.TunningMarket.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.util.List;
@@ -18,6 +19,7 @@ public class Categorie {
 
     @Column(name="description_categorie")
     private String descriptionCategorie;
+
 
     @JsonIgnore
     @OneToMany

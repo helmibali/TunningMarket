@@ -1,7 +1,6 @@
 package com.helmi.TunningMarket.controllers;
 
 import com.helmi.TunningMarket.entities.Categorie;
-import com.helmi.TunningMarket.repositories.CategorieRepository;
 import com.helmi.TunningMarket.requests.CategorieRequest;
 import com.helmi.TunningMarket.response.ApiResponse;
 import com.helmi.TunningMarket.services.CategorieService;
@@ -12,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api")
+@CrossOrigin(origins = "*")
 public class CategotrieController {
 
     @Autowired

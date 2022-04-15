@@ -1,10 +1,8 @@
 package com.helmi.TunningMarket.entities;
-import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 
@@ -15,7 +13,7 @@ public class Produit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="produit_id")
-    private int id;
+    private int idProduit;
 
     @Column(name = "nom_produit")
     private String nomProduit;
@@ -26,9 +24,13 @@ public class Produit {
     @Column(name = "date_creation")
     private Date dateCreation;
 
+    @Column(name="filename")
+    private String filename;
+
     @ManyToOne
     @JoinColumn(name = "categorie_id")
     private Categorie categorie;
+
 
     //@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @ManyToMany(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
@@ -37,12 +39,12 @@ public class Produit {
             inverseJoinColumns = @JoinColumn(name="modele_id"))
     private Set<Modele> modeles = new HashSet<>();
 
-    public int getId() {
-        return id;
+    public int getIdProduit() {
+        return idProduit;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIdProduit(int idProduit) {
+        this.idProduit = idProduit;
     }
 
     public String getNomProduit() {
@@ -84,4 +86,9 @@ public class Produit {
     public void setModeles(Set<Modele> modeles) {
         this.modeles = modeles;
     }
+
+    public String getFilename() {return filename;}
+
+    public void setFilename(String filename) {this.filename = filename;}
+
 }

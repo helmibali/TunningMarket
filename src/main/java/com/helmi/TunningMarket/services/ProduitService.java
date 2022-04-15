@@ -1,20 +1,14 @@
 package com.helmi.TunningMarket.services;
 
 import com.helmi.TunningMarket.entities.Categorie;
-import com.helmi.TunningMarket.entities.Marque;
 import com.helmi.TunningMarket.entities.Modele;
 import com.helmi.TunningMarket.entities.Produit;
 import com.helmi.TunningMarket.repositories.CategorieRepository;
 import com.helmi.TunningMarket.repositories.ModeleRepository;
 import com.helmi.TunningMarket.repositories.ProduitRepository;
-import com.helmi.TunningMarket.requests.ModeleRequest;
 import com.helmi.TunningMarket.requests.ProduitRequest;
-import com.helmi.TunningMarket.response.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -53,8 +47,8 @@ public class ProduitService {
                     }
                     mods.getProduits().add(produit);
                     return mods;
-        }
-        ).collect(Collectors.toSet()));
+         }
+         ).collect(Collectors.toSet()));
 
         return  produitRepository.save(produit) ;
     }
@@ -70,6 +64,7 @@ public class ProduitService {
             produit.setPrixProduit(produitRequest.prixProduit);
             produit.setDateCreation(produitRequest.dateCreation);
             produit.setCategorie(categorie);
+
             produit.setModeles(produitRequest.modeles
                     .stream()
                     .map(modeles ->{
@@ -84,6 +79,8 @@ public class ProduitService {
 
             // success 200
             return this.produitRepository.save(produit);
+
+
 
 
     }

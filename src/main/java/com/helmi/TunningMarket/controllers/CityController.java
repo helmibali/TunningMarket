@@ -6,12 +6,13 @@ import com.helmi.TunningMarket.response.ApiResponse;
 import com.helmi.TunningMarket.services.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/api")
+@CrossOrigin(origins = "*")
 public class CityController {
     @Autowired
     CityService cityService;
