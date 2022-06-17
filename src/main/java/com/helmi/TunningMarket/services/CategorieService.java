@@ -27,6 +27,7 @@ public class CategorieService {
         categorie.setNomCategorie(categorieRequest.nomCategorie);
         categorie.setDescriptionCategorie(categorieRequest.descriptionCategorie);
         return categorieRepository.save(categorie);}
+
     public Categorie updateCategorie(CategorieRequest categorieRequest,int id){
         Categorie categorie = categorieRepository.findById(id);
         categorie.setNomCategorie(categorieRequest.nomCategorie);

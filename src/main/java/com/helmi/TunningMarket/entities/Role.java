@@ -1,6 +1,9 @@
 package com.helmi.TunningMarket.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "roles")
@@ -13,6 +16,18 @@ public class Role {
 
     @Column(name="Role_name")
     private String role;
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "roles")
+    private List<User> users;
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
 
     public int getId() {
         return id;
@@ -29,6 +44,8 @@ public class Role {
     public void setRole(String role) {
         this.role = role;
     }
+
+
 
 
 }

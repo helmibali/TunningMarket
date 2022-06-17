@@ -1,7 +1,12 @@
 package com.helmi.TunningMarket.controllers;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.helmi.TunningMarket.entities.Modele;
 import com.helmi.TunningMarket.requests.ModeleRequest;
+import com.helmi.TunningMarket.requests.ProduitRequest;
 import com.helmi.TunningMarket.response.ApiResponse;
 import com.helmi.TunningMarket.services.ModeleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +15,15 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "*")
 public class ModeleController {
     @Autowired
     private ModeleService modeleService;
+
+    @GetMapping("modeleByMarqueId/{id}")
+    public List<Modele> getModelesByMarque_id(@PathVariable int id){ return modeleService.getModelByMarque_id(id);}
 
     @GetMapping("modele/liste")
     public List<Modele> getModeles(){ return modeleService.getModeles();}
@@ -25,10 +33,7 @@ public class ModeleController {
         return modeleService.getModeleById(id);
     }
 
-    @PostMapping("modele/add")
-    public Modele saveModele(@RequestBody ModeleRequest modeleRequest){
-        return modeleService.saveModele(modeleRequest);
-    }
+
 
     @PutMapping("modele/update/{id}")
     public Modele updateModele(@RequestBody ModeleRequest modeleRequest,@PathVariable int id){
@@ -49,6 +54,12 @@ public class ModeleController {
             }catch(Exception e) {
                 return ResponseEntity.notFound().build().ok("Modele introuvable!");
             }
+        }
+
+        @PostMapping("modele/add")
+    public Modele addModele(@RequestParam String modele) throws JsonParseException, JsonMappingException, Exception {
+            ModeleRequest m = new ObjectMapper().readValue(modele, ModeleRequest.class);
+        return modeleService.saveModele(m);
         }
 
 

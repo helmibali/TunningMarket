@@ -1,5 +1,6 @@
 package com.helmi.TunningMarket.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -36,14 +37,55 @@ public class User {
     @Column(name="filename")
     private String filename;
 
-
-
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-   @JoinTable(name="user_role", joinColumns = @JoinColumn(name="user_id"),
-           inverseJoinColumns = @JoinColumn(name="role_id"))
+    @JoinTable(name="user_role", joinColumns = @JoinColumn(name="user_id"),
+            inverseJoinColumns = @JoinColumn(name="role_id"))
     private List<Role> roles;
 
+    @JsonIgnore
+    @OneToMany
+    @JoinColumn(name = "username")
+    private List<Comment> comments;
 
+    @JsonIgnore
+    @OneToMany
+    @JoinColumn(name = "username")
+    private List<Article> articles;
+
+    @JsonIgnore
+    @OneToMany
+    @JoinColumn(name = "username")
+    private List<Produit> produits;
+
+    @ManyToOne
+    @JoinColumn(name = "delegation_id")
+    private Gouvernorat delegation;
+
+    @ManyToOne
+    @JoinColumn(name = "gouvernorat_id")
+    private Gouvernorat gouvernorat;
+
+
+
+    public User() {
+    }
+
+    public User(Long user_id, String username, String password, Boolean enabled, String nom, String prenom, Date naissance, String filename, List<Role> roles, List<Comment> comments, List<Article> articles, List<Produit> produits, Gouvernorat delegation, Gouvernorat gouvernorat) {
+        this.user_id = user_id;
+        this.username = username;
+        this.password = password;
+        this.enabled = enabled;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.naissance = naissance;
+        this.filename = filename;
+        this.roles = roles;
+        this.comments = comments;
+        this.articles = articles;
+        this.produits = produits;
+        this.delegation = delegation;
+        this.gouvernorat = gouvernorat;
+    }
 
     public String getFilename() {return filename;}
 
@@ -112,5 +154,43 @@ public class User {
     public void setNaissance(Date naissance) {
         this.naissance = naissance;
     }
+    public List<Comment> getComments() {
+        return comments;
+    }
 
+    public List<Article> getArticles() {
+        return articles;
+    }
+
+    public void setArticles(List<Article> articles) {
+        this.articles = articles;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public List<Produit> getProduits() {
+        return produits;
+    }
+
+    public void setProduits(List<Produit> produits) {
+        this.produits = produits;
+    }
+
+    public Gouvernorat getDelegation() {
+        return delegation;
+    }
+
+    public void setDelegation(Gouvernorat delegation) {
+        this.delegation = delegation;
+    }
+
+    public Gouvernorat getGouvernorat() {
+        return gouvernorat;
+    }
+
+    public void setGouvernorat(Gouvernorat gouvernorat) {
+        this.gouvernorat = gouvernorat;
+    }
 }

@@ -28,6 +28,10 @@ public class ModeleService {
 
     public Modele getModeleById(int id){ return modeleRepository.findById(id);};
 
+    public List<Modele> getModelByMarque_id(int id){
+        return modeleRepository.findByMarque_Id(id);
+    }
+
     public Modele saveModele(ModeleRequest modeleRequest) {
         Marque marque = marqueRepository.findById(modeleRequest.marque_id);
         Modele modele = new Modele();

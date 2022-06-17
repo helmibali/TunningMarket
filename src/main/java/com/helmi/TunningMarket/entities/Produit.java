@@ -31,6 +31,18 @@ public class Produit {
     @JoinColumn(name = "categorie_id")
     private Categorie categorie;
 
+    @ManyToOne
+    @JoinColumn(name = "gouvernorat_id")
+    private Gouvernorat gouvernorat;
+
+    @ManyToOne
+    @JoinColumn(name = "delegation_id")
+    private Delegation delegation;
+
+    @ManyToOne
+    @JoinColumn(name = "username")
+    private User user;
+
 
     //@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @ManyToMany(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
@@ -38,6 +50,14 @@ public class Produit {
             joinColumns = @JoinColumn(name="produit_id"),
             inverseJoinColumns = @JoinColumn(name="modele_id"))
     private Set<Modele> modeles = new HashSet<>();
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public int getIdProduit() {
         return idProduit;
@@ -91,4 +111,35 @@ public class Produit {
 
     public void setFilename(String filename) {this.filename = filename;}
 
+    public Gouvernorat getGouvernorat() {
+        return gouvernorat;
+    }
+
+    public void setGouvernorat(Gouvernorat gouvernorat) {
+        this.gouvernorat = gouvernorat;
+    }
+
+    public Delegation getDelegation() {
+        return delegation;
+    }
+
+    public void setDelegation(Delegation delegation) {
+        this.delegation = delegation;
+    }
+
+    public Produit(int idProduit, String nomProduit, Double prixProduit, Date dateCreation, String filename, Categorie categorie, Gouvernorat gouvernorat, Delegation delegation, User user, Set<Modele> modeles) {
+        this.idProduit = idProduit;
+        this.nomProduit = nomProduit;
+        this.prixProduit = prixProduit;
+        this.dateCreation = dateCreation;
+        this.filename = filename;
+        this.categorie = categorie;
+        this.gouvernorat = gouvernorat;
+        this.delegation = delegation;
+        this.user = user;
+        this.modeles = modeles;
+    }
+
+    public Produit() {
+    }
 }
