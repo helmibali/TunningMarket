@@ -1,9 +1,14 @@
 package com.helmi.TunningMarket.controllers;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.helmi.TunningMarket.entities.Country;
 import com.helmi.TunningMarket.entities.Delegation;
+import com.helmi.TunningMarket.entities.Modele;
 import com.helmi.TunningMarket.requests.CountryRequest;
 import com.helmi.TunningMarket.requests.DelegationRequest;
+import com.helmi.TunningMarket.requests.ModeleRequest;
 import com.helmi.TunningMarket.services.DelegationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -29,4 +34,11 @@ public class DelegationController {
 
     @PostMapping("delegation")
     public Delegation saveDelegation(@RequestBody DelegationRequest delegationRequest){ return delegationService.saveDelegation(delegationRequest);}
+
+
+    @PostMapping("delegations")
+    public Delegation adddelegation(@RequestParam String delegation) throws JsonParseException, JsonMappingException, Exception {
+        DelegationRequest d = new ObjectMapper().readValue(delegation, DelegationRequest.class);
+        return delegationService.saveDelegation(d);
+    }
 }

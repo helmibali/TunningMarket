@@ -1,7 +1,9 @@
 package com.helmi.TunningMarket.requests;
 
 import com.helmi.TunningMarket.entities.Modele;
+import com.helmi.TunningMarket.entities.Moteur;
 
+import javax.persistence.Column;
 import java.util.Date;
 import java.util.Set;
 
@@ -13,7 +15,47 @@ public class ProduitRequest {
     public int categorie_id;
     public String filename;
     public Set<Modele> modeles;
+ /*   public Set<Moteur> moteurs; */
+    private String description;
+    private String carburant;
     private String user;
+    private Long delegation_id;
+
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getCarburant() {
+        return carburant;
+    }
+
+    public void setCarburant(String carburant) {
+        this.carburant = carburant;
+    }
+
+    public Long getDelegation_id() {
+        return delegation_id;
+    }
+
+    public void setDelegation_id(Long delegation_id) {
+        this.delegation_id = delegation_id;
+    }
+
+/*
+    public Set<Moteur> getMoteurs() {
+        return moteurs;
+    }
+
+    public void setMoteurs(Set<Moteur> moteurs) {
+        this.moteurs = moteurs;
+    }
+
+ */
 
     public String getUser() {
         return user;
@@ -77,5 +119,8 @@ public class ProduitRequest {
 
     public void setModeles(Set<Modele> modeles) {
         this.modeles = modeles;
+    }
+
+    public ProduitRequest() {
     }
 }

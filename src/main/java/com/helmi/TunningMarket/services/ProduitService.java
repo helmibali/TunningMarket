@@ -1,13 +1,7 @@
 package com.helmi.TunningMarket.services;
 
-import com.helmi.TunningMarket.entities.Categorie;
-import com.helmi.TunningMarket.entities.Modele;
-import com.helmi.TunningMarket.entities.Produit;
-import com.helmi.TunningMarket.entities.User;
-import com.helmi.TunningMarket.repositories.CategorieRepository;
-import com.helmi.TunningMarket.repositories.ModeleRepository;
-import com.helmi.TunningMarket.repositories.ProduitRepository;
-import com.helmi.TunningMarket.repositories.UserRepository;
+import com.helmi.TunningMarket.entities.*;
+import com.helmi.TunningMarket.repositories.*;
 import com.helmi.TunningMarket.requests.ProduitRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -31,6 +25,10 @@ public class ProduitService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private DelegationRepository delegationRepository;
+
+
     public List<Produit> getProduits(){
         return produitRepository.findAll();
     }
@@ -40,13 +38,19 @@ public class ProduitService {
     public Produit saveProduit(ProduitRequest produitRequest) {
         User user = userRepository.findByUsername(produitRequest.getUser());
         Categorie categorie = categorieRepository.findById(produitRequest.categorie_id);
+
+        Delegation delegation = delegationRepository.findById(produitRequest.getDelegation_id()).get();
         Produit produit = new Produit();
         produit.setNomProduit(produitRequest.nomProduit);
         produit.setFilename(produitRequest.filename);
         produit.setPrixProduit(produitRequest.prixProduit);
         produit.setDateCreation(produitRequest.dateCreation);
+        produit.setDescription(produitRequest.getDescription());
+        produit.setCarburant(produitRequest.getCarburant());
         produit.setUser(user);
         produit.setCategorie(categorie);
+        produit.setDelegation(delegation);
+
 
         produit.setModeles(produitRequest.modeles
                 .stream()
@@ -60,8 +64,6 @@ public class ProduitService {
          }
          ).collect(Collectors.toSet()));
 
-
-
         return  produitRepository.save(produit) ;
     }
 
@@ -70,6 +72,11 @@ public class ProduitService {
 
 
     public Produit updateProduit(ProduitRequest produitRequest,int id ){
+
+     /*   Gouvernorat gouvernorat = gouvernoratRepository.findById(produitRequest.getGouvernorat_id()).get();
+
+      */
+        Delegation delegation = delegationRepository.findById(produitRequest.getDelegation_id()).get();
         User user = userRepository.findByUsername(produitRequest.getUser());
             Categorie categorie = categorieRepository.findById(produitRequest.categorie_id);
             Produit produit = produitRepository.findById(id);
@@ -79,6 +86,8 @@ public class ProduitService {
             produit.setDateCreation(produitRequest.dateCreation);
         produit.setUser(user);
             produit.setCategorie(categorie);
+        produit.setDelegation(delegation);
+
 
             produit.setModeles(produitRequest.modeles
                     .stream()

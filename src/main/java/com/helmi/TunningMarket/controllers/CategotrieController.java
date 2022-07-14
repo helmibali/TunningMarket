@@ -1,6 +1,7 @@
 package com.helmi.TunningMarket.controllers;
 
 import com.helmi.TunningMarket.entities.Categorie;
+import com.helmi.TunningMarket.entities.Delegation;
 import com.helmi.TunningMarket.requests.CategorieRequest;
 import com.helmi.TunningMarket.response.ApiResponse;
 import com.helmi.TunningMarket.services.CategorieService;
@@ -46,4 +47,8 @@ public class CategotrieController {
             return ResponseEntity.notFound().build().ok("Categorie introuvable!");
         }
     }
+
+    @GetMapping("categoriesByFamille/{id}")
+    public List <Categorie> categoriesByFamille_id(@PathVariable Long id) { return categorieService.findByFamille_id(id);}
+
 }

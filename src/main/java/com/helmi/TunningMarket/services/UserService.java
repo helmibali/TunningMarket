@@ -1,8 +1,10 @@
 package com.helmi.TunningMarket.services;
 
+import com.helmi.TunningMarket.entities.Delegation;
 import com.helmi.TunningMarket.entities.Produit;
 import com.helmi.TunningMarket.entities.Role;
 import com.helmi.TunningMarket.entities.User;
+import com.helmi.TunningMarket.repositories.DelegationRepository;
 import com.helmi.TunningMarket.repositories.RoleRepository;
 import com.helmi.TunningMarket.repositories.UserRepository;
 import com.helmi.TunningMarket.requests.UserRequest;
@@ -18,6 +20,8 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private RoleRepository roleRepository;
+    @Autowired
+    private DelegationRepository delegationRepository;
 
 
     public User userById(Long id){
@@ -29,13 +33,47 @@ public class UserService {
     public List<User> getUsers(){ return userRepository.findAll();};
 
     public User saveUser(UserRequest userRequest){
+        Delegation delegation = delegationRepository.findById(userRequest.getDelegation_id()).get();
         User u = new User();
         u.setUsername(userRequest.getUsername());
         u.setPrenom(userRequest.getPrenom());
         u.setNom(userRequest.getNom());
         u.setNaissance(userRequest.getNaissance());
         u.setPassword(userRequest.getPassword());
-        u.setFilename(userRequest.getFilename());
+       /* u.setFilename(userRequest.getFilename());
+
+        */
+        u.setTelephone(userRequest.getTelephone());
+        u.setDelegation(delegation);
+/*
+        u.setRoles(userRequest.roles
+                .stream()
+                .map(roles ->{
+                            Role r = roles;
+                            if(r.getId()>0){
+                                r = roleRepository.findById(r.getId());
+                            }
+                            r.getUsers().add(u);
+                            return r;
+                        }
+                ).collect(Collectors.toList()));
+
+ */
+
+        return userRepository.save(u);
+    }
+
+    public User saveUserWithImg(UserRequest userRequest){
+        Delegation delegation = delegationRepository.findById(userRequest.getDelegation_id()).get();
+        User u = new User();
+        u.setUsername(userRequest.getUsername());
+        u.setPrenom(userRequest.getPrenom());
+        u.setNom(userRequest.getNom());
+        u.setNaissance(userRequest.getNaissance());
+        u.setPassword(userRequest.getPassword());
+         u.setFilename(userRequest.getFilename());
+        u.setTelephone(userRequest.getTelephone());
+        u.setDelegation(delegation);
 /*
         u.setRoles(userRequest.roles
                 .stream()
@@ -91,5 +129,8 @@ public class UserService {
         u.setFilename(userRequest.getFilename());
         return userRepository.save(u);
     }
+
+    public void DeleteUserById( long id ){ this.userRepository.deleteById(id);  }
+
 
 }

@@ -38,4 +38,8 @@ public class CategorieService {
     public void DeleteCategorie(int id){
          this.categorieRepository.deleteById(id);
     }
+
+    public List<Categorie> findByFamille_id(Long id){
+        return categorieRepository.findCategorieByFamille_Id(id);
+    }
 }

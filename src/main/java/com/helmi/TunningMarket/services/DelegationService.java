@@ -24,7 +24,7 @@ public List<Delegation> getDelegations(){ return delegationRepository.findAll();
 public Delegation getDelegationById(Long id){ return  delegationRepository.findById(id).get();}
     public List<Delegation> GetDeleGationByGouvernoratId(Long id){return delegationRepository.findByGouvernorat_Id(id);}
     public Delegation saveDelegation(DelegationRequest delegationRequest) {
-        Gouvernorat gouvernorat = gouvernoratRepository.findById(delegationRequest.getGouvernorat_id()).get();
+        Gouvernorat gouvernorat = gouvernoratRepository.findById(delegationRequest.getGouvernorat()).get();
         Delegation delegation = new Delegation();
         delegation.setLibelle(delegationRequest.getLibelle());
         delegation.setGouvernorat(gouvernorat);

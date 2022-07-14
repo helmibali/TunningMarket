@@ -27,17 +27,22 @@ public class Produit {
     @Column(name="filename")
     private String filename;
 
+    @Column(length = 2048)
+    private String description;
+
+    @Column(name="carburant")
+    private String carburant;
+
     @ManyToOne
     @JoinColumn(name = "categorie_id")
     private Categorie categorie;
 
-    @ManyToOne
-    @JoinColumn(name = "gouvernorat_id")
-    private Gouvernorat gouvernorat;
+
 
     @ManyToOne
     @JoinColumn(name = "delegation_id")
     private Delegation delegation;
+
 
     @ManyToOne
     @JoinColumn(name = "username")
@@ -58,6 +63,8 @@ public class Produit {
     public void setUser(User user) {
         this.user = user;
     }
+
+
 
     public int getIdProduit() {
         return idProduit;
@@ -111,13 +118,7 @@ public class Produit {
 
     public void setFilename(String filename) {this.filename = filename;}
 
-    public Gouvernorat getGouvernorat() {
-        return gouvernorat;
-    }
 
-    public void setGouvernorat(Gouvernorat gouvernorat) {
-        this.gouvernorat = gouvernorat;
-    }
 
     public Delegation getDelegation() {
         return delegation;
@@ -127,19 +128,36 @@ public class Produit {
         this.delegation = delegation;
     }
 
-    public Produit(int idProduit, String nomProduit, Double prixProduit, Date dateCreation, String filename, Categorie categorie, Gouvernorat gouvernorat, Delegation delegation, User user, Set<Modele> modeles) {
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getCarburant() {
+        return carburant;
+    }
+
+    public void setCarburant(String carburant) {
+        this.carburant = carburant;
+    }
+
+    public Produit() {
+    }
+
+    public Produit(int idProduit, String nomProduit, Double prixProduit, Date dateCreation, String filename, String description, String carburant, Categorie categorie, Delegation delegation, User user, Set<Modele> modeles) {
         this.idProduit = idProduit;
         this.nomProduit = nomProduit;
         this.prixProduit = prixProduit;
         this.dateCreation = dateCreation;
         this.filename = filename;
+        this.description = description;
+        this.carburant = carburant;
         this.categorie = categorie;
-        this.gouvernorat = gouvernorat;
         this.delegation = delegation;
         this.user = user;
         this.modeles = modeles;
-    }
-
-    public Produit() {
     }
 }

@@ -7,10 +7,12 @@ import com.helmi.TunningMarket.entities.*;
 import com.helmi.TunningMarket.repositories.RoleRepository;
 import com.helmi.TunningMarket.repositories.UserRepository;
 import com.helmi.TunningMarket.requests.UserRequest;
+import com.helmi.TunningMarket.response.ApiResponse;
 import com.helmi.TunningMarket.services.UserService;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,7 +24,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:4200/")
+@CrossOrigin(origins = "*")
 public class UsersController {
     @Autowired
     UserRepository userRep;
@@ -45,12 +47,43 @@ public class UsersController {
 
     }
     @PostMapping("/user/add")
-    public User createArticle (@RequestParam("file") MultipartFile file,
+    public User createArticle (
                                   @RequestParam("user") String user) throws JsonParseException, JsonMappingException, Exception
     {
         System.out.println("Save User...");
         UserRequest u = new ObjectMapper().readValue(user, UserRequest.class);
-        boolean isExit = new File(context.getRealPath("/ImagesUser/")).exists();
+       /* boolean isExit = new File(context.getRealPath("/ImagesUser/")).exists();
+        if (!isExit)
+        {
+            new File (context.getRealPath("/ImagesUser/")).mkdir();
+            System.out.println("mk dir ImagesUser...");
+        }
+        System.out.println("Save User..2..");
+        String filename = file.getOriginalFilename();
+        String newFileName = FilenameUtils.getBaseName(filename)+"."+FilenameUtils.getExtension(filename);
+        File serverFile = new File (context.getRealPath("/ImagesUser/"+File.separator+newFileName));
+        try
+        {
+            System.out.println("Image");
+            FileUtils.writeByteArrayToFile(serverFile,file.getBytes());
+
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("Save User ..3..");
+        u.setFilename(newFileName);*/
+        return userService.saveUser(u);
+    }
+
+
+
+    @PostMapping("/userWithImg/add")
+    public User createUsser (@RequestParam("file") MultipartFile file,
+            @RequestParam("user") String user) throws JsonParseException, JsonMappingException, Exception
+    {
+        System.out.println("Save User...");
+        UserRequest u = new ObjectMapper().readValue(user, UserRequest.class);
+       boolean isExit = new File(context.getRealPath("/ImagesUser/")).exists();
         if (!isExit)
         {
             new File (context.getRealPath("/ImagesUser/")).mkdir();
@@ -70,8 +103,12 @@ public class UsersController {
         }
         System.out.println("Save User ..3..");
         u.setFilename(newFileName);
-        return userService.saveUser(u);
+        return userService.saveUserWithImg(u);
     }
+
+
+
+
 
 
 @PutMapping("/user/{id}")
@@ -133,6 +170,22 @@ public User updateImageUser(@RequestParam("file") MultipartFile file,
     @GetMapping("/user/{id}")
     public User getUserById(@PathVariable Long id){
         return userService.userById(id);
+    }
+
+    @DeleteMapping("/user/{id}")
+    public ResponseEntity<?> DeleteProduit(@PathVariable int id){
+
+        try {
+
+            userService.DeleteUserById(id);
+
+            ApiResponse res = new ApiResponse();
+            res.setSuccess(true);
+            res.setMessage("Utilistaeur supprimé avec succé!");
+            return ResponseEntity.ok(res);
+        }catch(Exception e) {
+            return ResponseEntity.notFound().build().ok("Utilistaeur introuvable!");
+        }
     }
 
 

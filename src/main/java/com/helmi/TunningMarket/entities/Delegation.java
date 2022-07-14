@@ -15,7 +15,7 @@ import java.util.List;
 @Table(name = "deleg")
 public class Delegation {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "delegation_id")
     private Long id;
     private String libelle;

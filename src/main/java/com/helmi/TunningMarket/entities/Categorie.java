@@ -1,11 +1,16 @@
 package com.helmi.TunningMarket.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.util.List;
-
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "categories")
 public class Categorie {
@@ -26,34 +31,9 @@ public class Categorie {
     @JoinColumn(name = "categorie_id")
     private List<Produit> produits;
 
-    public Categorie(int id) {
-        this.id = id;
-    }
+    @ManyToOne
+    @JoinColumn(name = "famille_id")
+    private Famille famille;
 
-    public Categorie() {
-    }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getNomCategorie() {
-        return nomCategorie;
-    }
-
-    public void setNomCategorie(String nomCategorie) {
-        this.nomCategorie = nomCategorie;
-    }
-
-    public String getDescriptionCategorie() {
-        return descriptionCategorie;
-    }
-
-    public void setDescriptionCategorie(String descriptionCategorie) {
-        this.descriptionCategorie = descriptionCategorie;
-    }
 }

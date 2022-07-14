@@ -26,15 +26,4 @@ public class Gouvernorat {
     @JoinColumn(name = "gouvernorat_id")
     private List<Delegation> delegations;
 
-    @JsonIgnore
-    @OneToMany
-    @JoinColumn(name = "gouvernorat_id")
-    private List<Produit> produits;
-
-    @JsonIgnore
-    @OneToMany
-    @JoinColumn(name = "gouvernorat_id")
-    private List<User> users;
-
-
 }
