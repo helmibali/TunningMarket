@@ -1,7 +1,9 @@
 package com.helmi.TunningMarket.services;
 
 import com.helmi.TunningMarket.entities.Categorie;
+import com.helmi.TunningMarket.entities.Famille;
 import com.helmi.TunningMarket.repositories.CategorieRepository;
+import com.helmi.TunningMarket.repositories.FamilleRepository;
 import com.helmi.TunningMarket.requests.CategorieRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +14,8 @@ import java.util.List;
 
 @Service
 public class CategorieService {
-
+    @Autowired
+    private FamilleRepository familleRepository;
     @Autowired
     private CategorieRepository categorieRepository;
 
@@ -23,15 +26,19 @@ public class CategorieService {
         return categorieRepository.findAll();}
 
     public Categorie addCategorie(@RequestBody CategorieRequest categorieRequest){
+        Famille famille = familleRepository.findById(categorieRequest.getFamille()).get();
         Categorie categorie = new Categorie();
         categorie.setNomCategorie(categorieRequest.nomCategorie);
         categorie.setDescriptionCategorie(categorieRequest.descriptionCategorie);
+        categorie.setFamille(famille);
         return categorieRepository.save(categorie);}
 
     public Categorie updateCategorie(CategorieRequest categorieRequest,int id){
+        Famille famille = familleRepository.findById(categorieRequest.getFamille()).get();
         Categorie categorie = categorieRepository.findById(id);
         categorie.setNomCategorie(categorieRequest.nomCategorie);
         categorie.setDescriptionCategorie(categorieRequest.descriptionCategorie);
+        categorie.setFamille(famille);
         return categorieRepository.save(categorie);
 
     }

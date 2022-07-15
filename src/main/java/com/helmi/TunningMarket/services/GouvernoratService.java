@@ -24,4 +24,9 @@ public class GouvernoratService {
         gouvernorat.setLibelle(gouvernoratRequest.getLibelle());
         return  gouvernoratRepository.save(gouvernorat);
     }
+    public Gouvernorat updateGouvernorat(GouvernoratRequest gouvernoratRequest, Long id) {
+        Gouvernorat gouvernorat = gouvernoratRepository.findById(id).get();
+        gouvernorat.setLibelle(gouvernoratRequest.getLibelle());
+        return  gouvernoratRepository.save(gouvernorat);
+    }
 }

@@ -21,5 +21,8 @@ public class GouvernoratController {
     public Gouvernorat getGouvernoratById(@PathVariable Long id) {return gouvernoratService.getGouvernoratById(id);}
     @PostMapping("gouvernorat")
     public Gouvernorat saveG(@RequestBody GouvernoratRequest gouvernoratRequest){return gouvernoratService.saveGouvernorat(gouvernoratRequest);}
+    @PutMapping("gouvernorat/{id}")
+    public Gouvernorat saveG(@RequestBody GouvernoratRequest gouvernoratRequest, @PathVariable Long id){
+        return gouvernoratService.updateGouvernorat(gouvernoratRequest,id);}
 
 }
