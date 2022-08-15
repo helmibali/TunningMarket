@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.helmi.TunningMarket.entities.Marque;
 import com.helmi.TunningMarket.entities.Modele;
+import com.helmi.TunningMarket.entities.Produit;
 import com.helmi.TunningMarket.repositories.MarqueRepository;
 import com.helmi.TunningMarket.requests.MarqueRequest;
 import com.helmi.TunningMarket.response.ApiResponse;
@@ -48,14 +49,14 @@ public List<Marque> getAllMarques(){
  @RequestParam("marque") String marque) throws JsonParseException, JsonMappingException, Exception
 {
     Marque m = new ObjectMapper().readValue(marque, Marque.class);
-    boolean isExit = new File(context.getRealPath("/Images/")).exists();
+    boolean isExit = new File(context.getRealPath("/ImagesMarque/")).exists();
     if (!isExit)
     {
-        new File (context.getRealPath("/Images/")).mkdir();
+        new File (context.getRealPath("/ImagesMarque/")).mkdir();
     }
     String filename = file.getOriginalFilename();
     String newFileName = FilenameUtils.getBaseName(filename)+"."+ FilenameUtils.getExtension(filename);
-    File serverFile = new File (context.getRealPath("/Images/"+File.separator+newFileName));
+    File serverFile = new File (context.getRealPath("/ImagesMarque/"+File.separator+newFileName));
     try
     {
         FileUtils.writeByteArrayToFile(serverFile,file.getBytes());
@@ -66,11 +67,14 @@ public List<Marque> getAllMarques(){
    return marqueRepository.save(m);
 }
 
-    @GetMapping(path="/Imgarticles/{id}")
+    @GetMapping(path="/ImgMarque/{id}")
     public byte[] getPhoto(@PathVariable("id") int id) throws Exception{
         Marque Marque   = marqueRepository.findById(id);
-        return Files.readAllBytes(Paths.get(context.getRealPath("/Images/")+Marque.getFilename()));
+        return Files.readAllBytes(Paths.get(context.getRealPath("/ImagesMarque/")+Marque.getFilename()));
+
     }
+
+
 
     /*
     @PutMapping("marque")

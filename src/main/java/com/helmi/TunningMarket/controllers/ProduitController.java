@@ -42,8 +42,9 @@ public class ProduitController {
     @GetMapping("/produits")
     public List<Produit> getProduits(){ return produitService.getProduits();}
 
+
     @GetMapping("/produit/{id}")
-    public Produit getProduitById(@PathVariable int id){
+    public Produit getProduitById(@PathVariable long id){
         return produitService.getProduitById(id);}
 
     @PostMapping("/produit/addd")
@@ -144,8 +145,8 @@ public List<Produit>  getProduitByIdCat(@PathVariable int id){
     }
 
     @GetMapping(path="/imgp/{id}")
-    public byte[] getPhoto(@PathVariable("id") int id) throws Exception{
-        Produit Produit   = produitRepository.findById(id);
+    public byte[] getPhoto(@PathVariable("id") long id) throws Exception{
+        Produit Produit   = produitRepository.findById(id).get();
         return Files.readAllBytes(Paths.get(context.getRealPath("/ImagesProduit/")+Produit.getFilename()));
     }
     @GetMapping("produit/modelebycat/{id_mod}/{id_cat}/{id_marque}")

@@ -1,8 +1,10 @@
 package com.helmi.TunningMarket.services;
 
 import com.helmi.TunningMarket.entities.Gouvernorat;
+import com.helmi.TunningMarket.entities.Marque;
 import com.helmi.TunningMarket.repositories.GouvernoratRepository;
 import com.helmi.TunningMarket.requests.GouvernoratRequest;
+import com.helmi.TunningMarket.requests.MarqueRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,4 +31,6 @@ public class GouvernoratService {
         gouvernorat.setLibelle(gouvernoratRequest.getLibelle());
         return  gouvernoratRepository.save(gouvernorat);
     }
+
+    public void DeleteGouvernoratById( Long id ){ this.gouvernoratRepository.deleteById(id);  }
 }

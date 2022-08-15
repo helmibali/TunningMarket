@@ -22,6 +22,9 @@ public class DelegationService {
 
 public List<Delegation> getDelegations(){ return delegationRepository.findAll();};
 public Delegation getDelegationById(Long id){ return  delegationRepository.findById(id).get();}
+
+    public Delegation getDelegationPublic(Long id){ return  delegationRepository.findDelegationPublic(id);}
+
     public List<Delegation> GetDeleGationByGouvernoratId(Long id){return delegationRepository.findByGouvernorat_Id(id);}
     public Delegation saveDelegation(DelegationRequest delegationRequest) {
         Gouvernorat gouvernorat = gouvernoratRepository.findById(delegationRequest.getGouvernorat()).get();
@@ -30,4 +33,5 @@ public Delegation getDelegationById(Long id){ return  delegationRepository.findB
         delegation.setGouvernorat(gouvernorat);
         return  delegationRepository.save(delegation) ;
     }
+    public void DeleteDelegationById( Long id ){ this.delegationRepository.deleteById(id);  }
 }

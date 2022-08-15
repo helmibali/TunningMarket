@@ -1,8 +1,13 @@
 package com.helmi.TunningMarket.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -13,7 +18,7 @@ public class Produit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="produit_id")
-    private int idProduit;
+    private long idProduit;
 
     @Column(name = "nom_produit")
     private String nomProduit;
@@ -45,6 +50,7 @@ public class Produit {
 
 
     @ManyToOne
+    @JsonIgnoreProperties(value = {"password","roles"})
     @JoinColumn(name = "username")
     private User user;
 
@@ -56,6 +62,13 @@ public class Produit {
             inverseJoinColumns = @JoinColumn(name="modele_id"))
     private Set<Modele> modeles = new HashSet<>();
 
+
+
+    public void setIdProduit(long idProduit) {
+        this.idProduit = idProduit;
+    }
+
+
     public User getUser() {
         return user;
     }
@@ -66,13 +79,11 @@ public class Produit {
 
 
 
-    public int getIdProduit() {
+    public long getIdProduit() {
         return idProduit;
     }
 
-    public void setIdProduit(int idProduit) {
-        this.idProduit = idProduit;
-    }
+
 
     public String getNomProduit() {
         return nomProduit;
@@ -147,7 +158,7 @@ public class Produit {
     public Produit() {
     }
 
-    public Produit(int idProduit, String nomProduit, Double prixProduit, Date dateCreation, String filename, String description, String carburant, Categorie categorie, Delegation delegation, User user, Set<Modele> modeles) {
+    public Produit(long idProduit, String nomProduit, Double prixProduit, Date dateCreation, String filename, String description, String carburant, Categorie categorie, Delegation delegation, User user, Set<Modele> modeles) {
         this.idProduit = idProduit;
         this.nomProduit = nomProduit;
         this.prixProduit = prixProduit;
@@ -160,4 +171,6 @@ public class Produit {
         this.user = user;
         this.modeles = modeles;
     }
+
+
 }

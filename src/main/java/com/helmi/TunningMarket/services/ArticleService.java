@@ -26,14 +26,26 @@ public class ArticleService {
 
     public Article getArticleById(Long id){return articleRepository.findById(id).get();}
 
-    public List<Article> getAllArticles(){return articleRepository.findAll();}
+    public List<Article> getAllArticles(){return articleRepository.findAllOrderDate();}
+
+    public List<Article> getAllArticlesByUser(String username){return articleRepository.findArticlesByUser(username);}
+
+    public Article saveArticleWithImg(ArticleRequest articleRequest){
+        User user = userRepository.findByUsername(articleRequest.getUser());
+        Article article = new Article();
+        article.setTitle(articleRequest.getTitle());
+        article.setDateCreation(articleRequest.getDateCreation());
+        article.setFilename(articleRequest.getFilename());
+        article.setText(articleRequest.getText());
+        article.setUser(user);
+        return articleRepository.save(article);}
 
     public Article saveArticle(ArticleRequest articleRequest){
         User user = userRepository.findByUsername(articleRequest.getUser());
         Article article = new Article();
         article.setTitle(articleRequest.getTitle());
         article.setDateCreation(articleRequest.getDateCreation());
-        article.setFilename(articleRequest.getFilename());
+       // article.setFilename(articleRequest.getFilename());
         article.setText(articleRequest.getText());
         article.setUser(user);
         return articleRepository.save(article);}

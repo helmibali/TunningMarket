@@ -1,28 +1,26 @@
 package com.helmi.TunningMarket.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+
 @Entity
-@Table(name = "users")
+@Table(name = "users",uniqueConstraints={@UniqueConstraint(columnNames={"username"})})
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long  user_id;
 
-    @Column(name = "username")
+    @Column(name = "username",unique=true)
     private String username;
 
+
     @Column(name = "password")
+    @Basic(fetch = FetchType.LAZY, optional = false)
     private String password;
 
     @Column(name = "enabled")
@@ -43,7 +41,7 @@ public class User {
     @Column(name="filename")
     private String filename;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinTable(name="user_role", joinColumns = @JoinColumn(name="user_id"),
             inverseJoinColumns = @JoinColumn(name="role_id"))
     private List<Role> roles;
@@ -68,4 +66,167 @@ public class User {
     private Delegation delegation;
 
 
+
+
+
+
+
+
+    public User(Long user_id, String username, String nom, String prenom, String telephone, Date naissance,  Delegation delegation) {
+        this.user_id = user_id;
+        this.username = username;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.telephone = telephone;
+        this.naissance = naissance;
+
+        this.delegation = delegation;
+    }
+
+    public User(Long user_id, String username, String nom, String prenom, String telephone, Date naissance, List<Role> roles, Delegation delegation) {
+        this.user_id = user_id;
+        this.username = username;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.telephone = telephone;
+        this.naissance = naissance;
+        this.roles = roles;
+        this.delegation = delegation;
+    }
+
+    public User(Long user_id, String username, String password, Boolean enabled, String nom, String prenom, String telephone, Date naissance, String filename, List<Role> roles, List<Comment> comments, List<Article> articles, List<Produit> produits, Delegation delegation) {
+        this.user_id = user_id;
+        this.username = username;
+        this.password = password;
+        this.enabled = enabled;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.telephone = telephone;
+        this.naissance = naissance;
+        this.filename = filename;
+        this.roles = roles;
+        this.comments = comments;
+        this.articles = articles;
+        this.produits = produits;
+        this.delegation = delegation;
+    }
+
+    public User() {
+    }
+
+    public Long getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(Long user_id) {
+        this.user_id = user_id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getPrenom() {
+        return prenom;
+    }
+
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
+
+    public Date getNaissance() {
+        return naissance;
+    }
+
+    public void setNaissance(Date naissance) {
+        this.naissance = naissance;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public List<Article> getArticles() {
+        return articles;
+    }
+
+    public void setArticles(List<Article> articles) {
+        this.articles = articles;
+    }
+
+    public List<Produit> getProduits() {
+        return produits;
+    }
+
+    public void setProduits(List<Produit> produits) {
+        this.produits = produits;
+    }
+
+    public Delegation getDelegation() {
+        return delegation;
+    }
+
+    public void setDelegation(Delegation delegation) {
+        this.delegation = delegation;
+    }
+
+    public User(String username) {
+        this.username = username;
+    }
 }

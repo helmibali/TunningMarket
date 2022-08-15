@@ -36,9 +36,11 @@ public class ArticleController {
     public List<Article> getAllArticles(){return articleService.getAllArticles();}
     @GetMapping("/article/{id}")
     public Article getArticleById(@PathVariable Long id){return articleService.getArticleById(id);}
+    @GetMapping("/article-par-utlisateur/{username}")
+    public List<Article> getArticleByUser(@PathVariable String username){return articleService.getAllArticlesByUser(username);}
 
-    @PostMapping("/article")
-    public Article createArticle (@RequestParam("file") MultipartFile file, @RequestParam("article") String article)
+    @PostMapping("/articleWithImg")
+    public Article createArticleWithImg (@RequestParam("file") MultipartFile file, @RequestParam("article") String article)
             throws JsonParseException, JsonMappingException, Exception
     {
         ArticleRequest a = new ObjectMapper().readValue(article, ArticleRequest.class);
@@ -50,6 +52,25 @@ public class ArticleController {
         try {FileUtils.writeByteArrayToFile(serverFile,file.getBytes());}
         catch(Exception e) {e.printStackTrace();}
         a.setFilename(newFileName);
+        return articleService.saveArticleWithImg(a);
+    }
+
+    @PostMapping("/article")
+    public Article createArticle (@RequestParam("article") String article)
+            throws JsonParseException, JsonMappingException, Exception
+    {
+        ArticleRequest a = new ObjectMapper().readValue(article, ArticleRequest.class);
+        /*
+        boolean isExit = new File(context.getRealPath("/ImagesArticle/")).exists();
+        if (!isExit) { new File (context.getRealPath("/ImagesArticle/")).mkdir();}
+        String filename = file.getOriginalFilename();
+        String newFileName = FilenameUtils.getBaseName(filename)+"."+FilenameUtils.getExtension(filename);
+        File serverFile = new File (context.getRealPath("/ImagesArticle/"+File.separator+newFileName));
+        try {FileUtils.writeByteArrayToFile(serverFile,file.getBytes());}
+        catch(Exception e) {e.printStackTrace();}
+        a.setFilename(newFileName);
+
+         */
         return articleService.saveArticle(a);
     }
     @PutMapping("/article")

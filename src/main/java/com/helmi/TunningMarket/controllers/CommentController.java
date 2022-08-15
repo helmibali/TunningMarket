@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.helmi.TunningMarket.entities.Comment;
 import com.helmi.TunningMarket.entities.Modele;
+import com.helmi.TunningMarket.repositories.CommentRepository;
 import com.helmi.TunningMarket.requests.CommentRequest;
 import com.helmi.TunningMarket.requests.ModeleRequest;
 import com.helmi.TunningMarket.response.ApiResponse;
@@ -22,8 +23,12 @@ import java.util.List;
 public class CommentController {
     @Autowired
     CommentService commentService;
+    @Autowired
+    CommentRepository commentRepository;
    @GetMapping("/comments")
-    public List<Comment> getAllComment(){return commentService.getAllComment();}
+    public List<Comment> getAllComment(){return commentRepository.findAllOrderDate();}
+    @GetMapping("/comments/article/{id}")
+    public List<Comment> getAllComment(@PathVariable long id){return commentRepository.findAllOrderDateByArticleId(id);}
     @GetMapping("/comment/{id}")
     public Comment getCommentById(@PathVariable  long id){
        return commentService.getCommentById(id);}

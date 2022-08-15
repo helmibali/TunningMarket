@@ -30,10 +30,11 @@ public class ProduitService {
 
 
     public List<Produit> getProduits(){
-        return produitRepository.findAll();
+        return produitRepository.findAllOrderDate();
     }
 
-    public Produit getProduitById(int id){ return produitRepository.findById(id);};
+
+    public Produit getProduitById(Long id){ return produitRepository.findById(id).get();};
 
     public Produit saveProduit(ProduitRequest produitRequest) {
         User user = userRepository.findByUsername(produitRequest.getUser());
@@ -68,10 +69,10 @@ public class ProduitService {
     }
 
 
-    public void DeleteProduitById( int id ){ this.produitRepository.deleteById(id);  }
+    public void DeleteProduitById( long id ){ this.produitRepository.deleteById(id);  }
 
 
-    public Produit updateProduit(ProduitRequest produitRequest,int id ){
+    public Produit updateProduit(ProduitRequest produitRequest,long id ){
 
      /*   Gouvernorat gouvernorat = gouvernoratRepository.findById(produitRequest.getGouvernorat_id()).get();
 
@@ -79,7 +80,7 @@ public class ProduitService {
         Delegation delegation = delegationRepository.findById(produitRequest.getDelegation_id()).get();
         User user = userRepository.findByUsername(produitRequest.getUser());
             Categorie categorie = categorieRepository.findById(produitRequest.categorie_id);
-            Produit produit = produitRepository.findById(id);
+            Produit produit = produitRepository.findById(id).get();
         produit.setFilename(produitRequest.filename);
             produit.setNomProduit(produitRequest.nomProduit);
             produit.setPrixProduit(produitRequest.prixProduit);

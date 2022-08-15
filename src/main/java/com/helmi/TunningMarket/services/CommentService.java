@@ -20,7 +20,8 @@ public class CommentService {
     ArticleRepository articleRepository;
 
     public Comment getCommentById(Long id){return commentRepository.findById(id).get();}
-    public List<Comment> getAllComment(){return commentRepository.findAll();}
+    public List<Comment> getAllComment(){return commentRepository.findAllOrderDate();}
+    public List<Comment> getAllCommentByArticle(long id){return commentRepository.findAllOrderDateByArticleId(id);}
     public void DeleteComment(Comment comment){ commentRepository.delete(comment);}
     public void DeleteCommentById(Long id){ commentRepository.deleteById(id);}
 
@@ -28,7 +29,7 @@ public class CommentService {
         Comment comment = new Comment();
         Article article = articleRepository.findById(commentRequest.getArticle()).get();
         User user = userRepository.findByUsername(commentRequest.getUser());
-        comment.setText(commentRequest.getText());
+        comment.setTexte(commentRequest.getTexte());
         comment.setDateComment(commentRequest.getDateComment());
         comment.setParentId(commentRequest.getParentId());
         comment.setUser(user);
@@ -40,7 +41,7 @@ public class CommentService {
         Comment comment = commentRepository.findById(id).get();
         Article article = articleRepository.findById(commentRequest.getArticle()).get();
         User user = userRepository.findByUsername(commentRequest.getUser());
-        comment.setText(commentRequest.getText());
+        comment.setTexte(commentRequest.getTexte());
         comment.setDateComment(commentRequest.getDateComment());
         comment.setParentId(commentRequest.getParentId());
         comment.setUser(user);

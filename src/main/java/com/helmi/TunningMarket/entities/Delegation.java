@@ -33,4 +33,9 @@ public class Delegation {
     @OneToMany
     @JoinColumn(name = "delegation_id")
     private List<User> users;
+
+    public Delegation(Long id, String libelle) {
+        this.id = id;
+        this.libelle = libelle;
+    }
 }

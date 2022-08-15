@@ -9,6 +9,7 @@ import com.helmi.TunningMarket.repositories.RoleRepository;
 import com.helmi.TunningMarket.repositories.UserRepository;
 import com.helmi.TunningMarket.requests.UserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,10 +23,33 @@ public class UserService {
     private RoleRepository roleRepository;
     @Autowired
     private DelegationRepository delegationRepository;
+    @Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder;
 
+
+   // public List<Object[]> UsersPublic(){
+     //   return userRepository.findAllPublic();
+   // }
+    public User saveUser2(User user) {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        return userRepository.save(user);
+    }
+
+    public User addRoleToUser(String username, String rolename) {
+        User usr = userRepository.findByUsername(username);
+        Role r = roleRepository.findByRole(rolename);
+        usr.getRoles().add(r);
+        return usr;
+    }
+
+    public Role addRole(Role role) {
+        return roleRepository.save(role);
+    }
+
+public User userByUsernamePublic(String username){return userRepository.findUserByUsernamePublic(username);}
 
     public User userById(Long id){
-        return userRepository.findById(id).get();
+        return userRepository.findUserByIdPublic(id);
     }
 
     public User userByUserName (String username){ return userRepository.findByUsername(username);}
@@ -38,27 +62,30 @@ public class UserService {
         u.setUsername(userRequest.getUsername());
         u.setPrenom(userRequest.getPrenom());
         u.setNom(userRequest.getNom());
-        u.setNaissance(userRequest.getNaissance());
-        u.setPassword(userRequest.getPassword());
+        //u.setNaissance(userRequest.getNaissance());
+        u.setPassword(bCryptPasswordEncoder.encode(userRequest.getPassword()));
        /* u.setFilename(userRequest.getFilename());
 
         */
         u.setTelephone(userRequest.getTelephone());
+
         u.setDelegation(delegation);
-/*
+
+
+
         u.setRoles(userRequest.roles
                 .stream()
                 .map(roles ->{
                             Role r = roles;
                             if(r.getId()>0){
-                                r = roleRepository.findById(r.getId());
+                                r = roleRepository.findById(r.getId()).get();
                             }
                             r.getUsers().add(u);
                             return r;
                         }
                 ).collect(Collectors.toList()));
 
- */
+
 
         return userRepository.save(u);
     }
@@ -69,32 +96,35 @@ public class UserService {
         u.setUsername(userRequest.getUsername());
         u.setPrenom(userRequest.getPrenom());
         u.setNom(userRequest.getNom());
-        u.setNaissance(userRequest.getNaissance());
-        u.setPassword(userRequest.getPassword());
+       // u.setNaissance(userRequest.getNaissance());
+        u.setPassword(bCryptPasswordEncoder.encode(userRequest.getPassword()));
          u.setFilename(userRequest.getFilename());
         u.setTelephone(userRequest.getTelephone());
+
         u.setDelegation(delegation);
-/*
+
+
+
         u.setRoles(userRequest.roles
                 .stream()
                 .map(roles ->{
                             Role r = roles;
                             if(r.getId()>0){
-                                r = roleRepository.findById(r.getId());
+                                r = roleRepository.findById(r.getId()).get();
                             }
                             r.getUsers().add(u);
                             return r;
                         }
                 ).collect(Collectors.toList()));
 
- */
+
 
         return userRepository.save(u);
     }
 
     public User updatePassword(UserRequest userRequest,Long user_id){
         User u = userRepository.findById(user_id).get();
-        u.setPassword(userRequest.getPassword());
+        u.setPassword(bCryptPasswordEncoder.encode(userRequest.getPassword()));
 
         return userRepository.save(u);
     }
@@ -112,7 +142,7 @@ public class UserService {
                 .map(roles ->{
                             Role r = roles;
                             if(r.getId()>0){
-                                r = roleRepository.findById(r.getId());
+                                r = roleRepository.findById(r.getId()).get();
                             }
                             r.getUsers().add(u);
                             return r;

@@ -9,8 +9,10 @@ import com.helmi.TunningMarket.entities.Modele;
 import com.helmi.TunningMarket.requests.CountryRequest;
 import com.helmi.TunningMarket.requests.DelegationRequest;
 import com.helmi.TunningMarket.requests.ModeleRequest;
+import com.helmi.TunningMarket.response.ApiResponse;
 import com.helmi.TunningMarket.services.DelegationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,4 +43,20 @@ public class DelegationController {
         DelegationRequest d = new ObjectMapper().readValue(delegation, DelegationRequest.class);
         return delegationService.saveDelegation(d);
     }
+    @DeleteMapping("delegation/{id}")
+    public ResponseEntity<?> DeleteMarque(@PathVariable long id){
+
+        try {
+
+            delegationService.DeleteDelegationById(id);
+
+            ApiResponse res = new ApiResponse();
+            res.setSuccess(true);
+            res.setMessage("Delegation supprimé avec succé!");
+            return ResponseEntity.ok(res);
+        }catch(Exception e) {
+            return ResponseEntity.notFound().build().ok("Delegation introuvable!");
+        }
+    }
+
 }

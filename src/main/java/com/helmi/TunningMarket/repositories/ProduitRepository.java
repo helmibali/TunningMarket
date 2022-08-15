@@ -11,9 +11,9 @@ import java.util.List;
 
 
 @Repository
-public interface ProduitRepository extends JpaRepository<Produit,Integer> {
-Produit findById(int id);
+public interface ProduitRepository extends JpaRepository<Produit,Long> {
 List<Produit> findByCategorie_Id(int id);
+
 
 
 
@@ -22,6 +22,11 @@ List<Produit> findByCategorie_Id(int id);
 
     @Query("select  p from Produit p join p.user u where u.user_id = :user_id")
     List<Produit> findAllByUser(@Param("user_id") long user_id);
+    /*
+    @Query("select  p from Produit p join p.user u join Cart c where u.username = :username and c.produit.user.username = :username and c.commandes.size<>0 ")
+    List<Produit> findAllByUserInCommand(@Param("username") String username);
+
+     */
 
     @Query("select  p from Produit p join p.modeles m join p.categorie c where m.id = :id_mod and c.id = :id_cat  and m.marque.id=:id_marque")
     List<Produit> findAllByModeleAndCategorieAndMarque(@Param("id_mod") int id_mod, @Param("id_cat") int id_cat,@Param("id_marque") int id_marque);
@@ -74,5 +79,6 @@ List<Produit> findByCategorie_Id(int id);
     @Query("select  p from Produit p join p.delegation.gouvernorat g join p.modeles m join p.categorie c where  g.id=:id_gouvernorat and m.marque.id=:id_marque and c.id =:id_cat ")
     List<Produit> findAllByGouvernoratAndMarqueAndCategorie(@Param("id_gouvernorat") Long id_gouvernorat, @Param("id_marque") int id_marque, @Param("id_cat") int id_cat);
 
-
+    @Query("SELECT p FROM Produit p ORDER BY p.dateCreation DESC")
+            List<Produit> findAllOrderDate();
 }

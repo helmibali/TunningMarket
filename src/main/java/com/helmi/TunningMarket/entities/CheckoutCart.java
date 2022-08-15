@@ -1,2 +1,8 @@
-package com.helmi.TunningMarket.entities;public class checkoutCart {
+package com.helmi.TunningMarket.entities;
+
+import javax.persistence.*;
+
+
+public class CheckoutCart {
+
 }

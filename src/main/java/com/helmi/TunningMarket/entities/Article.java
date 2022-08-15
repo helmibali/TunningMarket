@@ -1,6 +1,7 @@
 package com.helmi.TunningMarket.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,6 +34,7 @@ public class Article {
     private List<Comment> comments;
 
     @ManyToOne
+    @JsonIgnoreProperties(value = {"password","roles"})
     @JoinColumn(name = "username")
     private User user;
 
