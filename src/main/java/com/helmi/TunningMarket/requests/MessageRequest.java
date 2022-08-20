@@ -11,6 +11,16 @@ public class MessageRequest {
     private String auteur;
     private long emiter;
     private Date dateCreation;
+    private boolean vu;
+
+
+    public boolean isVu() {
+        return vu;
+    }
+
+    public void setVu(boolean vu) {
+        this.vu = vu;
+    }
 
     public Date getDateCreation() {
         return dateCreation;

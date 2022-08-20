@@ -2,7 +2,7 @@ package com.helmi.TunningMarket.entities;
 
 import javax.persistence.*;
 import java.util.Date;
-
+@Table(name = "msg")
 @Entity
 public class Message {
     @Id
@@ -18,6 +18,15 @@ public class Message {
     @JoinColumn(name = "user_id")
     private User emiter;
     private Date dateCreation;
+    private boolean vu;
+
+    public boolean isVu() {
+        return vu;
+    }
+
+    public void setVu(boolean vu) {
+        this.vu = vu;
+    }
 
     public Date getDateCreation() {
         return dateCreation;
@@ -59,11 +68,13 @@ public class Message {
         this.emiter = emiter;
     }
 
-    public Message(long id, String message, User auteur, User emiter) {
+    public Message(long id, String message, User auteur, User emiter, Date dateCreation, boolean vu) {
         this.id = id;
         this.message = message;
         this.auteur = auteur;
         this.emiter = emiter;
+        this.dateCreation = dateCreation;
+        this.vu = vu;
     }
 
     public Message() {

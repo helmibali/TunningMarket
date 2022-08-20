@@ -14,7 +14,8 @@ import java.util.List;
 public interface ProduitRepository extends JpaRepository<Produit,Long> {
 List<Produit> findByCategorie_Id(int id);
 
-
+    @Query("SELECT p FROM Produit p ORDER BY p.dateCreation DESC")
+    List<Produit> findAllOrderDate();
 
 
 @Query("select  p from Produit p join p.modeles m where m.id = :id_mod")
@@ -27,30 +28,49 @@ List<Produit> findByCategorie_Id(int id);
     List<Produit> findAllByUserInCommand(@Param("username") String username);
 
      */
-
-    @Query("select  p from Produit p join p.modeles m join p.categorie c where m.id = :id_mod and c.id = :id_cat  and m.marque.id=:id_marque")
-    List<Produit> findAllByModeleAndCategorieAndMarque(@Param("id_mod") int id_mod, @Param("id_cat") int id_cat,@Param("id_marque") int id_marque);
-
-    @Query("select  p from Produit p join p.modeles m join p.delegation.gouvernorat g where m.marque.id=:id_marque and m.id = :id_mod and g.id=:id_gouvernorat ")
-    List<Produit> findAllByModeleGouvernorat(@Param("id_marque") int id_marque, @Param("id_mod") int id_mod,@Param("id_gouvernorat") Long id_gouvernorat);
-
-    @Query("select  p from Produit p join p.modeles m join p.categorie c join p.delegation.gouvernorat g where m.id = :id_mod and c.id = :id_cat and g.id=:id_gouvernorat ")
-    List<Produit> findAllByModeleAndCategorieAndGouvernorat(@Param("id_mod") int id_mod, @Param("id_cat") int id_cat,@Param("id_gouvernorat") Long id_gouvernorat);
+    @Query("select  p from Produit p join p.delegation d join p.delegation.gouvernorat g join p.modeles m join p.categorie c where  g.id=:id_gouvernorat and m.marque.id=:id_marque and d.id =:id_delegation and c.id =:id_cat and c.famille.id=:id_famille and m.id=:id_modele ")
+    List<Produit> findAllFilter1(@Param("id_famille") long id_famille, @Param("id_cat") int id_cat, @Param("id_marque") int id_marque, @Param("id_modele") int id_modele, @Param("id_gouvernorat") Long id_gouvernorat, @Param("id_delegation") Long id_delegation);
+    /*
+   filter 4 Param
+     */
+    @Query("select  p from Produit p join p.delegation d join p.delegation.gouvernorat g join p.modeles m join p.categorie c where  g.id=:id_gouvernorat and m.marque.id=:id_marque and d.id =:id_delegation and c.id =:id_cat ")
+    List<Produit> findAllByGouvernoratAndDelegationAndMarqueAndCategorie(@Param("id_gouvernorat") Long id_gouvernorat, @Param("id_marque") int id_marque, @Param("id_delegation") Long id_delegation, @Param("id_cat") int id_cat);
 
     @Query("select  p from Produit p join p.modeles m join p.categorie c join p.delegation.gouvernorat g join p.delegation d where m.id = :id_mod and c.id = :id_cat and g.id=:id_gouvernorat and d.id=:id_delegation")
     List<Produit> findAllByModeleAndCategorieAndGouvernoratAndDelegation(@Param("id_mod") int id_mod, @Param("id_cat") int id_cat,@Param("id_gouvernorat") Long id_gouvernorat,@Param("id_delegation") Long id_delegation);
 
+     /*
+    filter 3 Param
+     */
+//
+    @Query("select  p from Produit p join p.delegation d join p.delegation.gouvernorat g join p.modeles m where  g.id=:id_gouvernorat and m.marque.id=:id_marque and d.id =:id_delegation")
+    List<Produit> findAllByGouvernoratAndDelegationAndMarque(@Param("id_gouvernorat") Long id_gouvernorat,@Param("id_marque") int id_marque, @Param("id_delegation") Long id_delegation);
+
+    @Query("select  p from Produit p join p.delegation.gouvernorat g join p.modeles m join p.categorie c where  g.id=:id_gouvernorat and m.marque.id=:id_marque and c.id =:id_cat ")
+    List<Produit> findAllByGouvernoratAndMarqueAndCategorie(@Param("id_gouvernorat") Long id_gouvernorat, @Param("id_marque") int id_marque, @Param("id_cat") int id_cat);
+
+    @Query("select  p from Produit p join p.modeles m join p.categorie c join p.delegation.gouvernorat g where m.id = :id_mod and c.id = :id_cat and g.id=:id_gouvernorat ")
+    List<Produit> findAllByModeleAndCategorieAndGouvernorat(@Param("id_mod") int id_mod, @Param("id_cat") int id_cat,@Param("id_gouvernorat") Long id_gouvernorat);
+
+    @Query("select  p from Produit p join p.modeles m join p.delegation.gouvernorat g where m.marque.id=:id_marque and m.id = :id_mod and g.id=:id_gouvernorat ")
+    List<Produit> findAllByModeleGouvernorat(@Param("id_marque") int id_marque, @Param("id_mod") int id_mod,@Param("id_gouvernorat") Long id_gouvernorat);
+
     @Query("select  p from Produit p join p.modeles m join p.categorie c join  p.delegation d where m.id = :id_mod and c.id = :id_cat and d.id=:id_delegation")
     List<Produit> findAllByModeleAndCategorieAndDelegation(@Param("id_mod") int id_mod, @Param("id_cat") int id_cat,@Param("id_delegation") Long id_delegation);
 
-    @Query("select  p from Produit p join p.delegation.gouvernorat g join p.delegation d where  g.id=:id_gouvernorat and d.id=:id_delegation")
-    List<Produit> findAllByGouvernoratAndDelegation(@Param("id_gouvernorat") Long id_gouvernorat,@Param("id_delegation") Long id_delegation);
+    @Query("select  p from Produit p join p.modeles m join p.categorie c where m.id = :id_mod and c.id = :id_cat  and m.marque.id=:id_marque")
+    List<Produit> findAllByModeleAndCategorieAndMarque(@Param("id_mod") int id_mod, @Param("id_cat") int id_cat,@Param("id_marque") int id_marque);
 
-    @Query("select  p from Produit p join p.delegation.gouvernorat g where  g.id=:id_gouvernorat")
-    List<Produit> findAllByGouvernorat(@Param("id_gouvernorat") Long id_gouvernorat);
+
+     /*
+   filter 2 Param
+     */
 
     @Query("select  p from Produit p join p.delegation.gouvernorat g join p.categorie c where  g.id=:id_gouvernorat and c.id=:id_cat")
     List<Produit> findAllByGouvernoratAndCategorie(@Param("id_gouvernorat") Long id_gouvernorat, @Param("id_cat") int id_cat);
+
+    @Query("select  p from Produit p join p.delegation.gouvernorat g join p.delegation d where  g.id=:id_gouvernorat and d.id=:id_delegation")
+    List<Produit> findAllByGouvernoratAndDelegation(@Param("id_gouvernorat") Long id_gouvernorat,@Param("id_delegation") Long id_delegation);
 
     @Query("select  p from Produit p join p.delegation d join p.categorie c where  d.id=:id_delegation and c.id=:id_cat")
     List<Produit> findAllByDelegationAndCategorie(@Param("id_delegation") Long id_delegation, @Param("id_cat") int id_cat);
@@ -61,24 +81,66 @@ List<Produit> findByCategorie_Id(int id);
     @Query("select  p from Produit p join p.delegation.gouvernorat g join p.modeles m where  g.id=:id_gouvernorat and m.id=:id_mod")
     List<Produit> findAllByGouvernoratAndModeles(@Param("id_gouvernorat") Long id_gouvernorat, @Param("id_mod") int id_cat);
 
-    @Query("select  p from Produit p join p.modeles m where  m.marque.id=:id_marque")
-    List<Produit> findAllByMarque(@Param("id_marque") int id_marque);
-
     @Query("select  p from Produit p join p.modeles m join p.categorie c where  m.marque.id=:id_marque and c.id=:id_cat")
     List<Produit> findAllByMarqueAndCategorie(@Param("id_marque") int id_marque,@Param("id_cat") int id_cat);
 
     @Query("select  p from Produit p join p.delegation.gouvernorat g join p.modeles m where  g.id=:id_gouvernorat and m.marque.id=:id_marque")
     List<Produit> findAllByGouvernoratAndMarque(@Param("id_gouvernorat") Long id_gouvernorat,@Param("id_marque") int id_marque);
 
-    @Query("select  p from Produit p join p.delegation d join p.delegation.gouvernorat g join p.modeles m where  g.id=:id_gouvernorat and m.marque.id=:id_marque and d.id =:id_delegation")
-    List<Produit> findAllByGouvernoratAndDelegationAndMarque(@Param("id_gouvernorat") Long id_gouvernorat,@Param("id_marque") int id_marque, @Param("id_delegation") Long id_delegation);
+     /*
+   filter 1 Param
+     */
 
-    @Query("select  p from Produit p join p.delegation d join p.delegation.gouvernorat g join p.modeles m join p.categorie c where  g.id=:id_gouvernorat and m.marque.id=:id_marque and d.id =:id_delegation and c.id =:id_cat ")
-    List<Produit> findAllByGouvernoratAndDelegationAndMarqueAndCategorie(@Param("id_gouvernorat") Long id_gouvernorat, @Param("id_marque") int id_marque, @Param("id_delegation") Long id_delegation, @Param("id_cat") int id_cat);
+    @Query("select  p from Produit p join p.delegation.gouvernorat g where  g.id=:id_gouvernorat")
+    List<Produit> findAllByGouvernorat(@Param("id_gouvernorat") Long id_gouvernorat);
 
-    @Query("select  p from Produit p join p.delegation.gouvernorat g join p.modeles m join p.categorie c where  g.id=:id_gouvernorat and m.marque.id=:id_marque and c.id =:id_cat ")
-    List<Produit> findAllByGouvernoratAndMarqueAndCategorie(@Param("id_gouvernorat") Long id_gouvernorat, @Param("id_marque") int id_marque, @Param("id_cat") int id_cat);
+    @Query("select  p from Produit p join p.modeles m where  m.marque.id=:id_marque")
+    List<Produit> findAllByMarque(@Param("id_marque") int id_marque);
+//
+    @Query("select  p from Produit p join p.categorie m where  m.famille.id=:id_famille")
+    List<Produit> findAllByfamille(@Param("id_famille") Long id_famille);
 
-    @Query("SELECT p FROM Produit p ORDER BY p.dateCreation DESC")
-            List<Produit> findAllOrderDate();
+    @Query("select  p from Produit p join p.categorie m where  m.famille.id=:id_famille and m.id=:id_cat")
+    List<Produit> findAllByfamilleAndCat(@Param("id_famille") Long id_famille,@Param("id_cat")int id_cat);
+    @Query("select  p from Produit p join p.categorie m join p.modeles mo where  m.famille.id=:id_famille and m.id=:id_cat and mo.marque.id =:id_marque")
+    List<Produit> findAllByfamilleAndCatAndMarque(@Param("id_famille") Long id_famille,@Param("id_cat")int id_cat,@Param("id_marque")int id_marque);
+    @Query("select  p from Produit p join p.categorie m join p.modeles mo where  m.famille.id=:id_famille and m.id=:id_cat and mo.marque.id =:id_marque and mo.id=:id_modele")
+    List<Produit> findAllByfamilleCatMarqueModele(@Param("id_famille") Long id_famille,@Param("id_cat")int id_cat,@Param("id_marque")int id_marque,@Param("id_modele")int id_modele);
+
+    @Query("select  p from Produit p join p.categorie m join p.modeles mo join p.delegation d where  m.famille.id=:id_famille and m.id=:id_cat and mo.marque.id =:id_marque and mo.id=:id_modele and d.gouvernorat.id=:id_gov")
+    List<Produit> findAllByfamilleCatMarqueModeleG(@Param("id_famille") Long id_famille,@Param("id_cat")int id_cat,@Param("id_marque")int id_marque,@Param("id_modele")int id_modele,@Param("id_gov")Long id_gov);
+
+    @Query("select  p from Produit p join p.categorie m  join p.delegation d where  m.famille.id=:id_famille  and d.gouvernorat.id=:id_gov")
+    List<Produit> findAllByfG(@Param("id_famille") Long id_famille,@Param("id_gov")Long id_gov);
+
+    @Query("select  p from Produit p join p.categorie m join p.modeles mo join p.delegation d where  m.famille.id=:id_famille  and mo.marque.id =:id_marque  and d.gouvernorat.id=:id_gov")
+    List<Produit> findAllByfmg(@Param("id_famille") Long id_famille,@Param("id_marque")int id_marque,@Param("id_gov")Long id_gov);
+
+    @Query("select  p from Produit p join p.categorie m join p.modeles mo join p.delegation d where  m.famille.id=:id_famille  and mo.marque.id =:id_marque")
+    List<Produit> findAllByfm(@Param("id_famille") Long id_famille,@Param("id_marque")int id_marque);
+
+    @Query("select  p from Produit p join p.delegation d join p.delegation.gouvernorat g join p.modeles m join p.categorie c where  g.id=:id_gouvernorat and m.marque.id=:id_marque and d.id =:id_delegation and c.famille.id=:id_famille and m.id=:id_modele ")
+    List<Produit> fmamogd(@Param("id_famille") long id_famille,@Param("id_marque") int id_marque, @Param("id_modele") int id_modele, @Param("id_gouvernorat") Long id_gouvernorat, @Param("id_delegation") Long id_delegation);
+
+
+
+    @Query("select  p from Produit p where p.carburant=:carburant")
+    List<Produit> findAllByCarburant(@Param("carburant") String carburant);
+/*
+    @Query("select  p from Produit p where p.annee=:annee")
+    List<Produit> findAllByAnnee(@Param("annee") int annee);
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

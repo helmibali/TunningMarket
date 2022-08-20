@@ -15,7 +15,7 @@ public class ProduitRequest {
     public int categorie_id;
     public String filename;
     public Set<Modele> modeles;
- /*   public Set<Moteur> moteurs; */
+    private int annee;
     private String description;
     private String carburant;
     private String user;
@@ -28,6 +28,14 @@ public class ProduitRequest {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public int getAnnee() {
+        return annee;
+    }
+
+    public void setAnnee(int annee) {
+        this.annee = annee;
     }
 
     public String getCarburant() {

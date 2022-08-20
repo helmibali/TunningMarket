@@ -22,6 +22,7 @@ public class MessageService {
     UserRepository userRepository;
     public List<Message> findAll(){return messageRepository.findAll();}
     public List<Message> findAllByEmiter( String username){return messageRepository.getMsgByEmiter( username);}
+    public List<Message> findAllByEmiterNonLu( String username){return messageRepository.getMsgByEmiterNonLus( username);}
     public List<Message> findAllByUser( String username){return messageRepository.getAllMsgForUser( username);}
     public List<Message> findAllByAuteur(String username){return messageRepository.getMsgByAuteur(username);}
     public Set<User> findContact(String username){return messageRepository.getAllUser(username);}
@@ -31,9 +32,19 @@ public class MessageService {
         User emiter = userRepository.findById(messageRequest.getEmiter()).get();
         Message message = new Message();
         message.setAuteur(auteur);
+        message.setVu(messageRequest.isVu());
         message.setEmiter(emiter);
         message.setMessage(messageRequest.getMessage());
         message.setDateCreation(messageRequest.getDateCreation());
         return  messageRepository.save(message);
     }
+    public Message readMessage(MessageRequest messageRequest) {
+
+        Message message = messageRepository.getById(messageRequest.getId());
+
+        message.setVu(messageRequest.isVu());
+
+        return  messageRepository.save(message);
+    }
+
 }

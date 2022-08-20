@@ -48,6 +48,7 @@ public class ProduitService {
         produit.setDateCreation(produitRequest.dateCreation);
         produit.setDescription(produitRequest.getDescription());
         produit.setCarburant(produitRequest.getCarburant());
+        produit.setAnnee(produitRequest.getAnnee());
         produit.setUser(user);
         produit.setCategorie(categorie);
         produit.setDelegation(delegation);

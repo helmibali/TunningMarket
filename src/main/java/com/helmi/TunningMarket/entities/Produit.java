@@ -38,6 +38,10 @@ public class Produit {
     @Column(name="carburant")
     private String carburant;
 
+    @Column(name="annee")
+    private int annee;
+
+
     @ManyToOne
     @JoinColumn(name = "categorie_id")
     private Categorie categorie;
@@ -62,7 +66,13 @@ public class Produit {
             inverseJoinColumns = @JoinColumn(name="modele_id"))
     private Set<Modele> modeles = new HashSet<>();
 
+    public int getAnnee() {
+        return annee;
+    }
 
+    public void setAnnee(int annee) {
+        this.annee = annee;
+    }
 
     public void setIdProduit(long idProduit) {
         this.idProduit = idProduit;

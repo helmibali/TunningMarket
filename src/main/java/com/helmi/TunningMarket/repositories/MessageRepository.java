@@ -16,6 +16,9 @@ public interface MessageRepository extends JpaRepository<Message,Long> {
    @Query("Select  m  FROM Message m WHERE m.emiter.username=:username order by m.dateCreation asc ")
     List<Message> getMsgByEmiter(@Param("username")String username);
 
+    @Query("Select  m  FROM Message m WHERE m.emiter.username=:username and m.vu=false order by m.dateCreation asc ")
+    List<Message> getMsgByEmiterNonLus(@Param("username")String username);
+
     @Query("select m from Message m where m.auteur.username=:username or m.emiter.username=:username")
     List<Message> getAllMsgForUser(@Param("username")String username);
 

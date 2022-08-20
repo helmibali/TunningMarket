@@ -26,6 +26,8 @@ public class MessageController {
 
     @GetMapping("/message-par-emiteur/{username}")
     List<Message> findByEmiter(@PathVariable String username){return messageService.findAllByEmiter(username);}
+    @GetMapping("/message-par-emiteur-unread/{username}")
+    List<Message> findByEmiterUnread(@PathVariable String username){return messageService.findAllByEmiterNonLu(username);}
 
     @GetMapping("/message-par-user/{username}")
     List<Message> findByUser(@PathVariable String username){return messageService.findAllByUser(username);}
@@ -44,5 +46,13 @@ public class MessageController {
         System.out.println("Save message...");
         MessageRequest m = new ObjectMapper().readValue(message, MessageRequest.class);
         return messageService.saveMessage(m);
+    }
+    @PutMapping("/message-read/{id}")
+    public Message read (
+            @RequestParam("message") String message) throws JsonParseException, JsonMappingException, Exception
+    {
+        System.out.println("Save message...");
+        MessageRequest m = new ObjectMapper().readValue(message, MessageRequest.class);
+        return messageService.readMessage(m);
     }
 }

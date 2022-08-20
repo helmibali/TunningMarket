@@ -177,57 +177,173 @@ public List<Produit>  getProduitByIdCat(@PathVariable int id){
     public List<Produit> findByGouvernoratAndDelegation(@PathVariable Long id_gouvernorat,@PathVariable Long id_delegation){
         return produitRepository.findAllByGouvernoratAndDelegation(id_gouvernorat,id_delegation);
     }
-
+//
     @GetMapping("produit/gouvernorat/{id_gouvernorat}")
     public List<Produit> findByGouvernorat(@PathVariable Long id_gouvernorat){
         return produitRepository.findAllByGouvernorat(id_gouvernorat);
     }
+    /*
+       @GetMapping("produit/gouvernoratAndCategorie/{id_gouvernorat}/{id_cat}")
+       public List<Produit> findByGouvernoratAndCategorie(@PathVariable Long id_gouvernorat,@PathVariable int id_cat){
+           return produitRepository.findAllByGouvernoratAndCategorie(id_gouvernorat,id_cat);
+       }
 
-    @GetMapping("produit/gouvernoratAndCategorie/{id_gouvernorat}/{id_cat}")
-    public List<Produit> findByGouvernoratAndCategorie(@PathVariable Long id_gouvernorat,@PathVariable int id_cat){
-        return produitRepository.findAllByGouvernoratAndCategorie(id_gouvernorat,id_cat);
-    }
-    @GetMapping("produit/delegationAndCategorie/{id_delegation}/{id_cat}")
-    public List<Produit> findByDelegationAndCategorie(@PathVariable Long id_delegation,@PathVariable int id_cat){
-        return produitRepository.findAllByDelegationAndCategorie(id_delegation,id_cat);
-    }
-    @GetMapping("produit/gouvernoratAndModeles/{id_gouvernorat}/{id_mod}")
-    public List<Produit> findByGouvernoratAndModeles(@PathVariable Long id_gouvernorat,@PathVariable int id_mod){
-        return produitRepository.findAllByGouvernoratAndModeles(id_gouvernorat,id_mod);
-    }
-    @GetMapping("produit/delegationAndModeles/{id_delegation}/{id_mod}")
-    public List<Produit> findByDelegationAndModeles(@PathVariable Long id_delegation,@PathVariable int id_mod){
-        return produitRepository.findAllByDelegationAndModeles(id_delegation,id_mod);
-    }
+       @GetMapping("produit/delegationAndCategorie/{id_delegation}/{id_cat}")
+       public List<Produit> findByDelegationAndCategorie(@PathVariable Long id_delegation,@PathVariable int id_cat){
+           return produitRepository.findAllByDelegationAndCategorie(id_delegation,id_cat);
+       }
 
+      @GetMapping("produit/gouvernoratAndModeles/{id_gouvernorat}/{id_mod}")
+      public List<Produit> findByGouvernoratAndModeles(@PathVariable Long id_gouvernorat,@PathVariable int id_mod){
+          return produitRepository.findAllByGouvernoratAndModeles(id_gouvernorat,id_mod);
+      }
+
+      @GetMapping("produit/delegationAndModeles/{id_delegation}/{id_mod}")
+      public List<Produit> findByDelegationAndModeles(@PathVariable Long id_delegation,@PathVariable int id_mod){
+          return produitRepository.findAllByDelegationAndModeles(id_delegation,id_mod);
+      }
+
+       */
+//
     @GetMapping("produit/marque/{id_marque}")
     public List<Produit> findByProduitAndMarque(@PathVariable int id_marque){
         return produitRepository.findAllByMarque(id_marque);
     }
-
+//
+    @GetMapping("produit-par-carburant/{carburant}")
+    public List<Produit> findByCarb(@PathVariable String carburant){
+        return produitRepository.findAllByCarburant(carburant);
+    }
+/*
     @GetMapping("produit/marque/categorie/{id_marque}/{id_cat}")
     public List<Produit> findByProduitAndMarqueAndCategorie(@PathVariable int id_marque,@PathVariable int id_cat){
         return produitRepository.findAllByMarqueAndCategorie(id_marque,id_cat);
     }
 
+ */
 
+//
     @GetMapping("produit/gouvernoratAndMarque/{id_gouvernorat}/{id_marque}")
     public List<Produit> findByGouvernoratAndMarque(@PathVariable Long id_gouvernorat,@PathVariable int id_marque){
         return produitRepository.findAllByGouvernoratAndMarque(id_gouvernorat,id_marque);
     }
-
+//
     @GetMapping("produit/gouvernoratAndMarqueAndDelegation/{id_gouvernorat}/{id_marque}/{id_delegation}")
     public List<Produit> findByGouvernoratAndMarqueAndDelegation(@PathVariable Long id_gouvernorat,@PathVariable int id_marque,@PathVariable Long id_delegation){
         return produitRepository.findAllByGouvernoratAndDelegationAndMarque(id_gouvernorat,id_marque,id_delegation);
     }
+
+    /*
     @GetMapping("produit/gouvernoratAndMarqueAndDelegationAndCategorie/{id_gouvernorat}/{id_marque}/{id_delegation}/{id_cat}")
     public List<Produit> findByGouvernoratAndMarqueAndCategorie(@PathVariable Long id_gouvernorat,@PathVariable int id_marque,@PathVariable Long id_delegation,@PathVariable int id_cat){
         return produitRepository.findAllByGouvernoratAndDelegationAndMarqueAndCategorie(id_gouvernorat,id_marque,id_delegation,id_cat);
+    }
+    */
+//
+    @GetMapping("produit-filter/{id_famille}/{id_cat}/{id_marque}/{id_modele}/{id_gouvernorat}/{id_delegation}")
+    public List<Produit> findFilterAll(@PathVariable Long id_famille,@PathVariable int id_cat,@PathVariable int id_marque,@PathVariable int id_modele,@PathVariable Long id_gouvernorat,@PathVariable Long id_delegation){
+        return produitRepository.findAllFilter1(id_famille,id_cat,id_marque,id_modele,id_gouvernorat,id_delegation);
     }
 
     @GetMapping("produit/gouvernoratAndMarqueAndCategorie/{id_gouvernorat}/{id_marque}/{id_cat}")
     public List<Produit> findByGouvernoratAndMarqueAndCategorie(@PathVariable Long id_gouvernorat,@PathVariable int id_marque,@PathVariable int id_cat){
         return produitRepository.findAllByGouvernoratAndMarqueAndCategorie(id_gouvernorat,id_marque,id_cat);
     }
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    //Search Query
+
+    //Famille
+
+    //------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    @GetMapping("/produit-search/0/0/0/0/0/0")
+    public List<Produit> getProduits1(){ return produitService.getProduits();}
+
+
+    @GetMapping("produit-search/{id_famille}/0/0/0/0/0")
+    public List<Produit> findByFamille1(@PathVariable Long id_famille){
+        return produitRepository.findAllByfamille(id_famille);
+    }
+
+    @GetMapping("/produit-search/{id_famille}/{id_cat}/0/0/0/0")
+    public List<Produit> findAllwithoutdgmomar(@PathVariable Long id_famille,@PathVariable int id_cat){
+        return produitRepository.findAllByfamilleAndCat(id_famille,id_cat);
+    }
+
+    @GetMapping("/produit-search/{id_famille}/{id_cat}/{id_marque}/0/0/0")
+    public List<Produit> findAllwithoutdgmo(@PathVariable Long id_famille,@PathVariable int id_cat, @PathVariable int id_marque){
+        return produitRepository.findAllByfamilleAndCatAndMarque(id_famille,id_cat,id_marque);
+    }
+    @GetMapping("/produit-search/{id_famille}/{id_cat}/{id_marque}/{id_modele}/0/0")
+    public List<Produit> findAllwithoutdg(@PathVariable Long id_famille,@PathVariable int id_cat, @PathVariable int id_marque,@PathVariable int id_modele){
+        return produitRepository.findAllByfamilleCatMarqueModele(id_famille,id_cat,id_marque,id_modele);
+    }
+    @GetMapping("/produit-search/{id_famille}/{id_cat}/{id_marque}/{id_modele}/{id_gouvernorat}/0")
+    public List<Produit> findAllwithoutd(@PathVariable Long id_famille,@PathVariable int id_cat, @PathVariable int id_marque,@PathVariable int id_modele, @PathVariable Long id_gouvernorat){
+        return produitRepository.findAllByfamilleCatMarqueModeleG(id_famille,id_cat,id_marque,id_modele,id_gouvernorat);
+    }
+    @GetMapping("/produit-search/{id_famille}/{id_cat}/{id_marque}/{id_modele}/{id_gouvernorat}/{id_delegation}")
+    public List<Produit> filter(@PathVariable Long id_famille,@PathVariable int id_cat, @PathVariable int id_marque,@PathVariable int id_modele, @PathVariable Long id_gouvernorat, @PathVariable Long id_delegation){
+        return produitRepository.findAllFilter1(id_famille,id_cat,id_marque,id_modele,id_gouvernorat,id_delegation);
+    }
+    @GetMapping("/produit-search/{id_famille}/0/0/0/{id_gouvernorat}/0")
+    public List<Produit> fg(@PathVariable Long id_famille, @PathVariable Long id_gouvernorat){
+        return produitRepository.findAllByfG(id_famille,id_gouvernorat);
+    }
+    @GetMapping("/produit-search/{id_famille}/0/{id_marque}/{id_modele}/{id_gouvernorat}/{id_delegation}")
+    public List<Produit> fgmgd(@PathVariable Long id_famille, @PathVariable int id_marque,@PathVariable int id_modele, @PathVariable Long id_gouvernorat, @PathVariable Long id_delegation){
+        return produitRepository.fmamogd(id_famille,id_marque,id_modele,id_gouvernorat,id_delegation);
+    }
+    @GetMapping("/produit-search/{id_famille}/0/{id_marque}/0/{id_gouvernorat}/0")
+    public List<Produit> fmmg(@PathVariable Long id_famille, @PathVariable int id_marque, @PathVariable Long id_gouvernorat){
+        return produitRepository.findAllByfmg(id_famille,id_marque,id_gouvernorat);
+    }
+    @GetMapping("/produit-search/{id_famille}/0/{id_marque}/0/0/0")
+    public List<Produit> fm2(@PathVariable Long id_famille, @PathVariable int id_marque){
+        return produitRepository.findAllByfm(id_famille,id_marque);
+    }
+
+    //------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//Gov
+    //------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+    @GetMapping("produit-search/0/0/{id_marque}/0/{id_gouvernorat}/{id_delegation}")
+    public List<Produit> findByGouvernoratAndMarqueAndDelegation2(@PathVariable Long id_gouvernorat,@PathVariable int id_marque,@PathVariable Long id_delegation){
+        return produitRepository.findAllByGouvernoratAndDelegationAndMarque(id_gouvernorat,id_marque,id_delegation);
+    }
+    @GetMapping("produit-search/0/0/{id_marque}/{id_mod}/{id_gouvernorat}/0")
+    public List<Produit> findByModeleAndGouvernorat1(@PathVariable int id_marque,@PathVariable int id_mod,@PathVariable Long id_gouvernorat){
+        return produitRepository.findAllByModeleGouvernorat(id_marque,id_mod,id_gouvernorat);
+    }
+    @GetMapping("produit-search/0/0/{id_marque}/0/{id_gouvernorat}/0")
+    public List<Produit> findByGouvernoratAndMarque1(@PathVariable Long id_gouvernorat,@PathVariable int id_marque){
+        return produitRepository.findAllByGouvernoratAndMarque(id_gouvernorat,id_marque);
+    }
+    @GetMapping("produit-search/0/0/0/0/{id_gouvernorat}/0")
+    public List<Produit> findByGouvernorat1(@PathVariable Long id_gouvernorat){
+        return produitRepository.findAllByGouvernorat(id_gouvernorat);
+    }
+    @GetMapping("produit-search/0/0/0/0/{id_gouvernorat}/{id_delegation}")
+    public List<Produit> findByGouvernoratAndDelegation1(@PathVariable Long id_gouvernorat,@PathVariable Long id_delegation){
+        return produitRepository.findAllByGouvernoratAndDelegation(id_gouvernorat,id_delegation);
+    }
+
+    //------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+    @GetMapping("produit-search/0/0/{id_marque}/0/0/0")
+    public List<Produit> findByProduitAndMarque1(@PathVariable int id_marque){
+        return produitRepository.findAllByMarque(id_marque);
+    }
+
+
+
+
+
+
+
+
+
+
 
 }
