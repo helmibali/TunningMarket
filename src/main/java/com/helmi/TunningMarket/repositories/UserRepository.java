@@ -15,12 +15,12 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User,Long> {
     User findByUsername (String username);
     User findByRoles(String role);
-
+    public boolean existsByUsername(String username);
 
    // @Query("SELECT u.nom, u.prenom, u.naissance ,u.user_id, u.delegation.libelle FROM User u")
     //List<Object[]> findAllPublic();
 
- ;
+
     @Query("SELECT new User(u.user_id, u.username, u.nom, u.prenom, u.telephone, u.naissance, u.delegation)FROM User u")
     List<User> PublicUser();
     @Query("SELECT new User(u.user_id, u.username, u.nom, u.prenom, u.telephone, u.naissance, u.delegation)FROM User u WHERE u.username=:username")

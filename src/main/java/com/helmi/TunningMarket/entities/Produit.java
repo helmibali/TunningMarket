@@ -41,11 +41,17 @@ public class Produit {
     @Column(name="annee")
     private int annee;
 
+    @Column(name = "enabled")
+    private Boolean enabled;
 
     @ManyToOne
     @JoinColumn(name = "categorie_id")
     private Categorie categorie;
 
+    @JsonIgnore
+    @OneToMany
+    @JoinColumn(name = "id")
+    private  List<Cart> carts;
 
 
     @ManyToOne
@@ -70,8 +76,17 @@ public class Produit {
         return annee;
     }
 
+
     public void setAnnee(int annee) {
         this.annee = annee;
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
     }
 
     public void setIdProduit(long idProduit) {
@@ -165,7 +180,33 @@ public class Produit {
         this.carburant = carburant;
     }
 
+
+    public List<Cart> getCarts() {
+        return carts;
+    }
+
+    public void setCarts(List<Cart> carts) {
+        this.carts = carts;
+    }
+
     public Produit() {
+    }
+
+    public Produit(long idProduit, String nomProduit, Double prixProduit, Date dateCreation, String filename, String description, String carburant, int annee, Boolean enabled, Categorie categorie, List<Cart> cart, Delegation delegation, User user, Set<Modele> modeles) {
+        this.idProduit = idProduit;
+        this.nomProduit = nomProduit;
+        this.prixProduit = prixProduit;
+        this.dateCreation = dateCreation;
+        this.filename = filename;
+        this.description = description;
+        this.carburant = carburant;
+        this.annee = annee;
+        this.enabled = enabled;
+        this.categorie = categorie;
+        this.carts = carts;
+        this.delegation = delegation;
+        this.user = user;
+        this.modeles = modeles;
     }
 
     public Produit(long idProduit, String nomProduit, Double prixProduit, Date dateCreation, String filename, String description, String carburant, Categorie categorie, Delegation delegation, User user, Set<Modele> modeles) {
@@ -182,5 +223,19 @@ public class Produit {
         this.modeles = modeles;
     }
 
-
+    public Produit(long idProduit, String nomProduit, Double prixProduit, Date dateCreation, String filename, String description, String carburant, int annee, Boolean enabled, Categorie categorie, Delegation delegation, User user, Set<Modele> modeles) {
+        this.idProduit = idProduit;
+        this.nomProduit = nomProduit;
+        this.prixProduit = prixProduit;
+        this.dateCreation = dateCreation;
+        this.filename = filename;
+        this.description = description;
+        this.carburant = carburant;
+        this.annee = annee;
+        this.enabled = enabled;
+        this.categorie = categorie;
+        this.delegation = delegation;
+        this.user = user;
+        this.modeles = modeles;
+    }
 }

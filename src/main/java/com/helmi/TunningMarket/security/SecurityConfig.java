@@ -55,6 +55,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	  http.authorizeRequests().antMatchers(HttpMethod.GET,"/all").hasAuthority("ADMIN");
 
 //User
+
+	  http.authorizeRequests().antMatchers(HttpMethod.PUT,"/api/useractive/{id}").hasAuthority("ADMIN");
+	  http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/user/social").permitAll();
 	  http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/signup").permitAll();
 	  http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/signupwithimg").permitAll();
 	  http.authorizeRequests().antMatchers(HttpMethod.PUT,"/api/userPw/{id}").hasAuthority("ADMIN");
@@ -69,10 +72,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	  http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/message").hasAuthority("USER");
 	  http.authorizeRequests().antMatchers(HttpMethod.PUT,"/api/message-read/{id}").hasAuthority("USER");
 	  //Cart
+	  http.authorizeRequests().antMatchers(HttpMethod.PUT,"/api/commande/etat/{id}").hasAuthority("ADMIN");
 	  http.authorizeRequests().antMatchers(HttpMethod.POST,"/commande").hasAuthority("USER");
 	  http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/add-to-cart").hasAuthority("USER");
 	  http.authorizeRequests().antMatchers(HttpMethod.DELETE,"/api/cart/{id}").hasAuthority("USER");
       //Produits
+
+
+	  http.authorizeRequests().antMatchers(HttpMethod.PUT,"/api/activeProduit/{id}").hasAuthority("ADMIN");
 	  http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/produit/add").hasAuthority("ADMIN");
 	  http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/produit/addd").hasAuthority("ADMIN");
 	  http.authorizeRequests().antMatchers(HttpMethod.PUT,"/api/produit/{id}").hasAuthority("ADMIN");

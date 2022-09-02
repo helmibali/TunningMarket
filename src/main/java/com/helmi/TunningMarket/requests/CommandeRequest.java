@@ -1,14 +1,5 @@
 package com.helmi.TunningMarket.requests;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.helmi.TunningMarket.entities.Cart;
-import com.helmi.TunningMarket.entities.Delegation;
-import com.helmi.TunningMarket.entities.Produit;
-import com.helmi.TunningMarket.entities.User;
-
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import java.util.Date;
 import java.util.List;
 
@@ -22,6 +13,25 @@ public class CommandeRequest {
     private String livraison;
     private long delegation;
     private String address;
+    private boolean validation;
+    private boolean annulation;
+
+
+    public boolean isValidation() {
+        return validation;
+    }
+
+    public void setValidation(boolean validation) {
+        this.validation = validation;
+    }
+
+    public boolean isAnnulation() {
+        return annulation;
+    }
+
+    public void setAnnulation(boolean annulation) {
+        this.annulation = annulation;
+    }
 
     public long getId() {
         return id;

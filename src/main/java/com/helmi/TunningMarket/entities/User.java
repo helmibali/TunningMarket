@@ -41,6 +41,9 @@ public class User {
     @Column(name="filename")
     private String filename;
 
+    @Column(name="photoUrl")
+    private String photoUrl;
+
     @ManyToMany(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinTable(name="user_role", joinColumns = @JoinColumn(name="user_id"),
             inverseJoinColumns = @JoinColumn(name="role_id"))
@@ -66,13 +69,33 @@ public class User {
     private Delegation delegation;
 
 
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
 
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
+    }
 
+    public User(Long user_id, String username, String password, Boolean enabled, String nom, String prenom, String telephone, Date naissance, String filename, String photoUrl, List<Role> roles, List<Comment> comments, List<Article> articles, List<Produit> produits, Delegation delegation) {
+        this.user_id = user_id;
+        this.username = username;
+        this.password = password;
+        this.enabled = enabled;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.telephone = telephone;
+        this.naissance = naissance;
+        this.filename = filename;
+        this.photoUrl = photoUrl;
+        this.roles = roles;
+        this.comments = comments;
+        this.articles = articles;
+        this.produits = produits;
+        this.delegation = delegation;
+    }
 
-
-
-
-    public User(Long user_id, String username, String nom, String prenom, String telephone, Date naissance,  Delegation delegation) {
+    public User(Long user_id, String username, String nom, String prenom, String telephone, Date naissance, Delegation delegation) {
         this.user_id = user_id;
         this.username = username;
         this.nom = nom;

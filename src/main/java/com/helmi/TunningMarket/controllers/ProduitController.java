@@ -41,7 +41,8 @@ public class ProduitController {
 
     @GetMapping("/produits")
     public List<Produit> getProduits(){ return produitService.getProduits();}
-
+    @GetMapping("/produitsEnabled")
+    public List<Produit> getProduitsEnabled(){ return produitRepository.findAllEnabledOrderDate();}
 
     @GetMapping("/produit/{id}")
     public Produit getProduitById(@PathVariable long id){
@@ -105,6 +106,7 @@ public List<Produit>  getProduitByIdCat(@PathVariable int id){
         return produitService.saveProduit(p);
     }
 
+
     @PutMapping("/produit/{id}")
     public Produit createProduit (@RequestParam("file") MultipartFile file,
                                   @RequestParam("produit") String produit,
@@ -132,6 +134,19 @@ public List<Produit>  getProduitByIdCat(@PathVariable int id){
         p.setFilename(newFileName);
         return produitService.updateProduit(p,id);
     }
+    @PutMapping("/activeProduit/{id}")
+    public Produit activeProduit2 (
+                                  @RequestParam("produit") String produit,
+                                  @PathVariable int id) throws JsonParseException, JsonMappingException, Exception
+    {
+
+        ProduitRequest p = new ObjectMapper().readValue(produit, ProduitRequest.class);
+        return produitService.activeProduit(p,id);
+    }
+
+    @PostMapping("/activeProduit2/{id}")
+    public Produit activeProduit(@RequestBody ProduitRequest produitRequest, int id){
+        return produitService.activeProduit(produitRequest,id);}
 
 
     @GetMapping("produit/user/{user_id}")
@@ -257,7 +272,7 @@ public List<Produit>  getProduitByIdCat(@PathVariable int id){
 
     //------------------------------------------------------------------------------------------------------------------------------------------------------------------
     @GetMapping("/produit-search/0/0/0/0/0/0")
-    public List<Produit> getProduits1(){ return produitService.getProduits();}
+    public List<Produit> getProduits1(){ return produitRepository.findAllEnabledOrderDate();}
 
 
     @GetMapping("produit-search/{id_famille}/0/0/0/0/0")

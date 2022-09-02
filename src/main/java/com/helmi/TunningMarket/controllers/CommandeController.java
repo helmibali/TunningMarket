@@ -61,4 +61,13 @@ public class CommandeController{
         return commandeService.saveCart(c);
     }
 
+    @PutMapping("/commande/etat/{id}")
+    public Commande validate(@RequestParam("commande") String commande, @PathVariable Long id) throws JsonParseException, JsonMappingException, Exception
+    {
+        System.out.println("Save commande...");
+        CommandeRequest c = new ObjectMapper().readValue(commande, CommandeRequest.class);
+        return commandeService.validateCommande(c,id);
+    }
+
+
 }

@@ -1,6 +1,7 @@
 package com.helmi.TunningMarket.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -11,8 +12,8 @@ import java.util.List;
 public class Commande {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    @JsonIgnore
+    private Long id;
+    @JsonIgnoreProperties(value="commandes")
     @ManyToMany(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
     @JoinTable(name="cart_commande",
             joinColumns = @JoinColumn(name="commande_id"),
@@ -25,10 +26,32 @@ public class Commande {
     private double prixCommande;
     private Date dateCreation;
     private String livraison;
+    @Column(name = "validation")
+    private boolean validation;
+    @Column(name = "annulation")
+    private boolean annulation;
     @ManyToOne
     @JoinColumn(name = "delegation_id")
     private Delegation delegation;
     private String address;
+
+    public boolean isValidation() {
+        return validation;
+    }
+
+    public void setValidation(boolean validation) {
+        this.validation = validation;
+    }
+
+
+
+    public boolean isAnnulation() {
+        return annulation;
+    }
+
+    public void setAnnulation(boolean annulation) {
+        this.annulation = annulation;
+    }
 
     public Delegation getDelegation() {
         return delegation;
@@ -54,13 +77,7 @@ public class Commande {
         this.livraison = livraison;
     }
 
-    public long getId() {
-        return id;
-    }
 
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public List<Cart> getCarts() {
         return carts;
@@ -102,8 +119,28 @@ public class Commande {
         this.dateCreation = dateCreation;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public Commande() {
     }
 
-
+    public Commande(Long id, List<Cart> carts, User user, int qty, double prixCommande, Date dateCreation, String livraison, boolean validation, boolean annulation, Delegation delegation, String address) {
+        this.id = id;
+        this.carts = carts;
+        this.user = user;
+        this.qty = qty;
+        this.prixCommande = prixCommande;
+        this.dateCreation = dateCreation;
+        this.livraison = livraison;
+        this.validation = validation;
+        this.annulation = annulation;
+        this.delegation = delegation;
+        this.address = address;
+    }
 }

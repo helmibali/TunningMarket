@@ -68,7 +68,7 @@ public User userByUsernamePublic(String username){return userRepository.findUser
 
         */
         u.setTelephone(userRequest.getTelephone());
-
+        u.setEnabled(userRequest.getEnabled());
         u.setDelegation(delegation);
 
 
@@ -100,7 +100,7 @@ public User userByUsernamePublic(String username){return userRepository.findUser
         u.setPassword(bCryptPasswordEncoder.encode(userRequest.getPassword()));
          u.setFilename(userRequest.getFilename());
         u.setTelephone(userRequest.getTelephone());
-
+        u.setEnabled(userRequest.getEnabled());
         u.setDelegation(delegation);
 
 
@@ -122,21 +122,53 @@ public User userByUsernamePublic(String username){return userRepository.findUser
         return userRepository.save(u);
     }
 
+
+
+    public User saveUserSocial(UserRequest userRequest){
+
+            Delegation delegation = delegationRepository.findById(userRequest.getDelegation_id()).get();
+            User u = new User();
+            u.setUsername(userRequest.getUsername());
+            u.setPrenom(userRequest.getPrenom());
+            u.setNom(userRequest.getNom());
+            u.setPhotoUrl(userRequest.getPhotoUrl());
+            u.setDelegation(delegation);
+            u.setTelephone(userRequest.getTelephone());
+            u.setPassword(bCryptPasswordEncoder.encode(userRequest.getPassword()));
+            u.setRoles(userRequest.roles
+                    .stream()
+                    .map(roles ->{
+                                Role r = roles;
+                                if(r.getId()>0){
+                                    r = roleRepository.findById(r.getId()).get();
+                                }
+                                r.getUsers().add(u);
+                                return r;
+                            }
+                    ).collect(Collectors.toList()));
+
+            return userRepository.save(u);
+
+    }
+
+
     public User updatePassword(UserRequest userRequest,Long user_id){
         User u = userRepository.findById(user_id).get();
         u.setPassword(bCryptPasswordEncoder.encode(userRequest.getPassword()));
 
         return userRepository.save(u);
     }
+    public User activeUser(UserRequest userRequest,Long user_id){
+        User u = userRepository.findById(user_id).get();
+        u.setEnabled(userRequest.getEnabled());
+
+        return userRepository.save(u);
+    }
     public User updateUser(UserRequest userRequest, long user_id){
         User u = userRepository.findById(user_id).get();
-    // u.setUsername(userRequest.getUsername());
         u.setPrenom(userRequest.getPrenom());
         u.setNom(userRequest.getNom());
-      // u.setNaissance(userRequest.getNaissance());
-      //  u.setPassword(userRequest.getPassword());
-       // u.setFilename(userRequest.getFilename());
-
+        u.setEnabled(userRequest.getEnabled());
         u.setRoles(userRequest.roles
                 .stream()
                 .map(roles ->{
@@ -153,6 +185,7 @@ public User userByUsernamePublic(String username){return userRepository.findUser
 
         return userRepository.save(u);
     }
+
 
     public User updateImageUser(UserRequest userRequest, long user_id){
         User u = userRepository.findById(user_id).get();

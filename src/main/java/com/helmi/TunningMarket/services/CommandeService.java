@@ -24,7 +24,7 @@ public class CommandeService {
     @Autowired
     UserRepository userRepository;
 
-    public List<Commande> findAll(){return commandeRepository.findAll();}
+    public List<Commande> findAll(){return commandeRepository.findAllByDateCreation();}
     public Commande findCommandeById(long id){return commandeRepository.getById(id);}
     public void deleteCommande(long id){ commandeRepository.deleteById(id);}
     public Commande saveCommande(CommandeRequest commandeRequest){
@@ -123,4 +123,14 @@ public class CommandeService {
                 ).collect(Collectors.toList()));
         return  commandeRepository.save(c) ;
     }
+
+    public Commande validateCommande(CommandeRequest commandeRequest,Long id){
+        Commande c = commandeRepository.getById(id);
+        c.setValidation(commandeRequest.isValidation());
+        c.setAnnulation(commandeRequest.isAnnulation());
+        return commandeRepository.save(c);
+
+    }
+
+
 }

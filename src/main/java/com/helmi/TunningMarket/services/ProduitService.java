@@ -49,6 +49,7 @@ public class ProduitService {
         produit.setDescription(produitRequest.getDescription());
         produit.setCarburant(produitRequest.getCarburant());
         produit.setAnnee(produitRequest.getAnnee());
+        produit.setEnabled(produitRequest.getEnabled());
         produit.setUser(user);
         produit.setCategorie(categorie);
         produit.setDelegation(delegation);
@@ -74,23 +75,18 @@ public class ProduitService {
 
 
     public Produit updateProduit(ProduitRequest produitRequest,long id ){
-
-     /*   Gouvernorat gouvernorat = gouvernoratRepository.findById(produitRequest.getGouvernorat_id()).get();
-
-      */
         Delegation delegation = delegationRepository.findById(produitRequest.getDelegation_id()).get();
         User user = userRepository.findByUsername(produitRequest.getUser());
             Categorie categorie = categorieRepository.findById(produitRequest.categorie_id);
             Produit produit = produitRepository.findById(id).get();
-        produit.setFilename(produitRequest.filename);
+            produit.setFilename(produitRequest.filename);
             produit.setNomProduit(produitRequest.nomProduit);
             produit.setPrixProduit(produitRequest.prixProduit);
             produit.setDateCreation(produitRequest.dateCreation);
-        produit.setUser(user);
+            produit.setEnabled(produitRequest.getEnabled());
+            produit.setUser(user);
             produit.setCategorie(categorie);
-        produit.setDelegation(delegation);
-
-
+            produit.setDelegation(delegation);
             produit.setModeles(produitRequest.modeles
                     .stream()
                     .map(modeles ->{
@@ -102,21 +98,19 @@ public class ProduitService {
                                 return mods;
                             }
                     ).collect(Collectors.toSet()));
-
             // success 200
             return this.produitRepository.save(produit);
-
-
-
-
+    }
+    public Produit activeProduit(ProduitRequest produitRequest,long id ){
+        Produit produit = produitRepository.findById(id).get();
+        produit.setEnabled(produitRequest.getEnabled());
+        // success 200
+        return this.produitRepository.save(produit);
     }
 
     public List<Produit> ProduitByCategorie_id(int id){
         return produitRepository.findByCategorie_Id(id);
     }
-
-
-
 }
 
 

@@ -14,6 +14,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,6 +23,8 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+
+
 
 @RestController
 @RequestMapping("/api")
@@ -37,7 +40,7 @@ public class UsersController {
     UserService userService;
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
-
+    private PasswordEncoder passwordEncoder;
 
 
 
@@ -76,26 +79,7 @@ public class UsersController {
     {
         System.out.println("Save User...");
         UserRequest u = new ObjectMapper().readValue(user, UserRequest.class);
-       /* boolean isExit = new File(context.getRealPath("/ImagesUser/")).exists();
-        if (!isExit)
-        {
-            new File (context.getRealPath("/ImagesUser/")).mkdir();
-            System.out.println("mk dir ImagesUser...");
-        }
-        System.out.println("Save User..2..");
-        String filename = file.getOriginalFilename();
-        String newFileName = FilenameUtils.getBaseName(filename)+"."+FilenameUtils.getExtension(filename);
-        File serverFile = new File (context.getRealPath("/ImagesUser/"+File.separator+newFileName));
-        try
-        {
-            System.out.println("Image");
-            FileUtils.writeByteArrayToFile(serverFile,file.getBytes());
 
-        }catch(Exception e) {
-            e.printStackTrace();
-        }
-        System.out.println("Save User ..3..");
-        u.setFilename(newFileName);*/
         return userService.saveUser(u);
     }
 
@@ -106,69 +90,25 @@ public class UsersController {
         return userService.userByUserName(username);
     }
 
-    @PostMapping("/user/add")
-    public User createArticle (
+    @PostMapping("/user/social")
+    public User createSocialUser (
                                   @RequestParam("user") String user) throws JsonParseException, JsonMappingException, Exception
     {
         System.out.println("Save User...");
         UserRequest u = new ObjectMapper().readValue(user, UserRequest.class);
-       /* boolean isExit = new File(context.getRealPath("/ImagesUser/")).exists();
-        if (!isExit)
-        {
-            new File (context.getRealPath("/ImagesUser/")).mkdir();
-            System.out.println("mk dir ImagesUser...");
-        }
-        System.out.println("Save User..2..");
-        String filename = file.getOriginalFilename();
-        String newFileName = FilenameUtils.getBaseName(filename)+"."+FilenameUtils.getExtension(filename);
-        File serverFile = new File (context.getRealPath("/ImagesUser/"+File.separator+newFileName));
-        try
-        {
-            System.out.println("Image");
-            FileUtils.writeByteArrayToFile(serverFile,file.getBytes());
 
-        }catch(Exception e) {
-            e.printStackTrace();
-        }
-        System.out.println("Save User ..3..");
-        u.setFilename(newFileName);*/
-        return userService.saveUser(u);
+        return userService.saveUserSocial(u);
     }
 
-/*
-
-    @PostMapping("/userWithImg/add")
-    public User createUsser (@RequestParam("file") MultipartFile file,
+    @PostMapping("/user/add")
+    public User createArticle (
             @RequestParam("user") String user) throws JsonParseException, JsonMappingException, Exception
     {
         System.out.println("Save User...");
         UserRequest u = new ObjectMapper().readValue(user, UserRequest.class);
-       boolean isExit = new File(context.getRealPath("/ImagesUser/")).exists();
-        if (!isExit)
-        {
-            new File (context.getRealPath("/ImagesUser/")).mkdir();
-            System.out.println("mk dir ImagesUser...");
-        }
-        System.out.println("Save User..2..");
-        String filename = file.getOriginalFilename();
-        String newFileName = FilenameUtils.getBaseName(filename)+"."+FilenameUtils.getExtension(filename);
-        File serverFile = new File (context.getRealPath("/ImagesUser/"+File.separator+newFileName));
-        try
-        {
-            System.out.println("Image");
-            FileUtils.writeByteArrayToFile(serverFile,file.getBytes());
 
-        }catch(Exception e) {
-            e.printStackTrace();
-        }
-        System.out.println("Save User ..3..");
-        u.setFilename(newFileName);
-        return userService.saveUserWithImg(u);
+        return userService.saveUser(u);
     }
-
-
-
- */
 
 
 
@@ -185,6 +125,13 @@ public User updatePwUser(@RequestParam("user") String user,
     UserRequest u = new ObjectMapper().readValue(user, UserRequest.class);
     return userService.updatePassword(u,id);
 }
+    @PutMapping("/useractive/{id}")
+    public User activeUser(@RequestParam("user") String user,
+                             @PathVariable Long id)throws JsonParseException, JsonMappingException, Exception
+    {
+        UserRequest u = new ObjectMapper().readValue(user, UserRequest.class);
+        return userService.activeUser(u,id);
+    }
 @PutMapping("/userImg/{id}")
 public User updateImageUser(@RequestParam("file") MultipartFile file,
                             @RequestParam("user") String user,
@@ -248,6 +195,10 @@ public User updateImageUser(@RequestParam("file") MultipartFile file,
     }
     @GetMapping("/usernames")
 public List<User> usernames(){return userRep.findUsername();}
+
+
+
+
 
 
 }

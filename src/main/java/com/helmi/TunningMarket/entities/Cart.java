@@ -1,6 +1,7 @@
 package com.helmi.TunningMarket.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -16,7 +17,7 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "produit_id")
     private  Produit produit;
     @ManyToOne
@@ -25,8 +26,11 @@ public class Cart {
     private int qty;
     private double prix;
     private Date dateCreation;
+
+    @JsonIgnoreProperties(value="carts")
     @ManyToMany(mappedBy="carts")
     private List<Commande> commandes;
+
 
     public long getId() {
         return id;

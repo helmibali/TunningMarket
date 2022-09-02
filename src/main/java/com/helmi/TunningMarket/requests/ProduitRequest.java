@@ -20,7 +20,16 @@ public class ProduitRequest {
     private String carburant;
     private String user;
     private Long delegation_id;
+    private Boolean enabled;
 
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
 
     public String getDescription() {
         return description;

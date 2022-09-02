@@ -23,5 +23,7 @@ public class UserRequest {
     public String filename;
     public List<Role> roles;
     private Long delegation_id;
+    private String photoUrl;
+    private Boolean enabled;
 
 }
