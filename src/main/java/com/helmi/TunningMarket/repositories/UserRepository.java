@@ -13,12 +13,17 @@ import javax.persistence.NamedNativeQuery;
 import java.util.List;
 @Repository
 public interface UserRepository extends JpaRepository<User,Long> {
+
     User findByUsername (String username);
     User findByRoles(String role);
     public boolean existsByUsername(String username);
 
    // @Query("SELECT u.nom, u.prenom, u.naissance ,u.user_id, u.delegation.libelle FROM User u")
     //List<Object[]> findAllPublic();
+   @Query("SELECT u FROM User u WHERE u.token = :token")
+public User findByToken(@Param("token")String token);
+@Query("SELECT c FROM User c WHERE c.username = ?1")
+public User findByEmail(String username);
 
 
     @Query("SELECT new User(u.user_id, u.username, u.nom, u.prenom, u.telephone, u.naissance, u.delegation)FROM User u")

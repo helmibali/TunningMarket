@@ -44,6 +44,11 @@ public class User {
     @Column(name="photoUrl")
     private String photoUrl;
 
+    @Column(name = "reset_password_token")
+    private String resetPasswordToken;
+
+    private String token;
+
     @ManyToMany(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinTable(name="user_role", joinColumns = @JoinColumn(name="user_id"),
             inverseJoinColumns = @JoinColumn(name="role_id"))
@@ -251,5 +256,41 @@ public class User {
 
     public User(String username) {
         this.username = username;
+    }
+
+    public String getResetPasswordToken() {
+        return resetPasswordToken;
+    }
+
+    public void setResetPasswordToken(String resetPasswordToken) {
+        this.resetPasswordToken = resetPasswordToken;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public User(Long user_id, String username, String password, Boolean enabled, String nom, String prenom, String telephone, Date naissance, String filename, String photoUrl, String resetPasswordToken, String token, List<Role> roles, List<Comment> comments, List<Article> articles, List<Produit> produits, Delegation delegation) {
+        this.user_id = user_id;
+        this.username = username;
+        this.password = password;
+        this.enabled = enabled;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.telephone = telephone;
+        this.naissance = naissance;
+        this.filename = filename;
+        this.photoUrl = photoUrl;
+        this.resetPasswordToken = resetPasswordToken;
+        this.token = token;
+        this.roles = roles;
+        this.comments = comments;
+        this.articles = articles;
+        this.produits = produits;
+        this.delegation = delegation;
     }
 }

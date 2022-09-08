@@ -1,7 +1,6 @@
 package com.helmi.TunningMarket.services;
 
 import com.helmi.TunningMarket.entities.Delegation;
-import com.helmi.TunningMarket.entities.Produit;
 import com.helmi.TunningMarket.entities.Role;
 import com.helmi.TunningMarket.entities.User;
 import com.helmi.TunningMarket.repositories.DelegationRepository;
@@ -11,9 +10,9 @@ import com.helmi.TunningMarket.requests.UserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.stream.Collectors;
+
 
 @Service
 public class UserService {
@@ -169,6 +168,7 @@ public User userByUsernamePublic(String username){return userRepository.findUser
         u.setPrenom(userRequest.getPrenom());
         u.setNom(userRequest.getNom());
         u.setEnabled(userRequest.getEnabled());
+        u.setToken(userRequest.getToken());
         u.setRoles(userRequest.roles
                 .stream()
                 .map(roles ->{
@@ -194,6 +194,30 @@ public User userByUsernamePublic(String username){return userRepository.findUser
     }
 
     public void DeleteUserById( long id ){ this.userRepository.deleteById(id);  }
+
+
+    public void updateResetPasswordToken(String token, String email)  {
+        User user = userRepository.findByEmail(email);
+        if (user != null) {
+            user.setResetPasswordToken(token);
+            userRepository.save(user);
+
+    }}
+
+    public User getByResetPasswordToken(String token) {
+        return userRepository.findByToken(token);
+    }
+    public User tokenPassword(UserRequest userRequest, String username){
+        User u = userRepository.findByUsername(username);
+        u.setToken(userRequest.getToken());
+        return userRepository.save(u);
+    }
+
+    public User userByToken(String token){
+
+        return userRepository.findByToken(token);
+    }
+
 
 
 }

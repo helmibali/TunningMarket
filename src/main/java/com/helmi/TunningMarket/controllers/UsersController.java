@@ -6,8 +6,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.helmi.TunningMarket.entities.*;
 import com.helmi.TunningMarket.repositories.RoleRepository;
 import com.helmi.TunningMarket.repositories.UserRepository;
+import com.helmi.TunningMarket.requests.EmailRequest;
 import com.helmi.TunningMarket.requests.UserRequest;
 import com.helmi.TunningMarket.response.ApiResponse;
+import com.helmi.TunningMarket.services.EmailService;
 import com.helmi.TunningMarket.services.UserService;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -110,6 +112,16 @@ public class UsersController {
         return userService.saveUser(u);
     }
 
+    @PostMapping("/email")
+    public Email email (
+            @RequestParam("email") String email) throws JsonParseException, JsonMappingException, Exception
+    {
+        System.out.println("Save User...");
+        EmailRequest e = new ObjectMapper().readValue(email, EmailRequest.class);
+
+        return emailService.saveEmail(e);
+    }
+
 
 
 
@@ -125,12 +137,27 @@ public User updatePwUser(@RequestParam("user") String user,
     UserRequest u = new ObjectMapper().readValue(user, UserRequest.class);
     return userService.updatePassword(u,id);
 }
+
+    @PutMapping("/userPwEmail/{id}")
+    public User updatePwUserEmail(@RequestParam("user") String user,
+                             @PathVariable Long id)throws JsonParseException, JsonMappingException, Exception
+    {
+        UserRequest u = new ObjectMapper().readValue(user, UserRequest.class);
+        return userService.updatePassword(u,id);
+    }
     @PutMapping("/useractive/{id}")
     public User activeUser(@RequestParam("user") String user,
                              @PathVariable Long id)throws JsonParseException, JsonMappingException, Exception
     {
         UserRequest u = new ObjectMapper().readValue(user, UserRequest.class);
         return userService.activeUser(u,id);
+    }
+    @PutMapping("/usertoken/{username}")
+    public User activeUser(@RequestParam("user") String user,
+                           @PathVariable String username)throws JsonParseException, JsonMappingException, Exception
+    {
+        UserRequest u = new ObjectMapper().readValue(user, UserRequest.class);
+        return userService.tokenPassword(u,username);
     }
 @PutMapping("/userImg/{id}")
 public User updateImageUser(@RequestParam("file") MultipartFile file,
@@ -175,6 +202,10 @@ public User updateImageUser(@RequestParam("file") MultipartFile file,
         User User   = userRep.findByUsername(username);
         return Files.readAllBytes(Paths.get(context.getRealPath("/ImagesUser/")+User.getFilename()));
     }
+    @GetMapping(path="/userByToken/{token}")
+    public User getUserByToken(@PathVariable String token){
+        return userService.userByToken(token);
+    }
 
 
 
@@ -195,8 +226,11 @@ public User updateImageUser(@RequestParam("file") MultipartFile file,
     }
     @GetMapping("/usernames")
 public List<User> usernames(){return userRep.findUsername();}
-
-
+@Autowired
+    EmailService emailService;
+    @GetMapping("/sendMail/{toEmail}/{subject}/{body}")
+    public void sendMail(@PathVariable String toEmail,@PathVariable String body,@PathVariable String subject)
+    { emailService.sendSimpleEmail(toEmail, body, subject);}
 
 
 

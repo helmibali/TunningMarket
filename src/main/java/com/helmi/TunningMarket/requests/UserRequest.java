@@ -25,5 +25,7 @@ public class UserRequest {
     private Long delegation_id;
     private String photoUrl;
     private Boolean enabled;
+    private String resetPasswordToken;
+    private String token;
 
 }

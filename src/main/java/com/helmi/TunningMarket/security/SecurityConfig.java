@@ -56,6 +56,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 //User
 
+	  http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/email").permitAll();
+	  http.authorizeRequests().antMatchers(HttpMethod.PUT,"/api/usertoken/{username}").permitAll();
 	  http.authorizeRequests().antMatchers(HttpMethod.PUT,"/api/useractive/{id}").hasAuthority("ADMIN");
 	  http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/user/social").permitAll();
 	  http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/signup").permitAll();
@@ -64,6 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	  http.authorizeRequests().antMatchers(HttpMethod.PUT,"/api/user/{id}").hasAuthority("ADMIN");
 	  http.authorizeRequests().antMatchers(HttpMethod.PUT,"/api/userImg/{id}").hasAuthority("ADMIN");
 	  http.authorizeRequests().antMatchers(HttpMethod.PUT,"/api/userPw/{id}").hasAuthority("USER");
+	  http.authorizeRequests().antMatchers(HttpMethod.PUT,"/api/userPwEmail/{id}").permitAll();
 	  http.authorizeRequests().antMatchers(HttpMethod.PUT,"/api/user/{id}").hasAuthority("USER");
 	  http.authorizeRequests().antMatchers(HttpMethod.PUT,"/api/userImg/{id}").hasAuthority("USER");
 	  http.authorizeRequests().antMatchers(HttpMethod.DELETE,"/api/user/{id}").hasAuthority("ADMIN");
@@ -72,6 +75,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	  http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/message").hasAuthority("USER");
 	  http.authorizeRequests().antMatchers(HttpMethod.PUT,"/api/message-read/{id}").hasAuthority("USER");
 	  //Cart
+
 	  http.authorizeRequests().antMatchers(HttpMethod.PUT,"/api/commande/etat/{id}").hasAuthority("ADMIN");
 	  http.authorizeRequests().antMatchers(HttpMethod.POST,"/commande").hasAuthority("USER");
 	  http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/add-to-cart").hasAuthority("USER");
