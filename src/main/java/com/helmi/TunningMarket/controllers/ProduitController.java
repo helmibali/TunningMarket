@@ -58,7 +58,7 @@ public List<Produit>  getProduitByIdCat(@PathVariable int id){
     }
 
 
-
+/*
     @DeleteMapping("/produit/delete/{id}")
     public ResponseEntity<?> DeleteProduit(@PathVariable int id){
 
@@ -73,6 +73,14 @@ public List<Produit>  getProduitByIdCat(@PathVariable int id){
         }catch(Exception e) {
             return ResponseEntity.notFound().build().ok("Produit introuvable!");
         }
+    }
+
+ */
+
+    @DeleteMapping("/produit/delete/{id}")
+    public void DeleteProduit(@PathVariable int id){
+
+      produitService.DeleteProduitById(id);
     }
 
 
