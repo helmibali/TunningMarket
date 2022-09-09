@@ -58,13 +58,13 @@ public List<Produit>  getProduitByIdCat(@PathVariable int id){
     }
 
 
-/*
+
     @DeleteMapping("/produit/delete/{id}")
-    public ResponseEntity<?> DeleteProduit(@PathVariable int id){
+    public ResponseEntity<?> DeleteProduit(@PathVariable Long id){
 
         try {
 
-            produitService.DeleteProduitById(id);
+            produitRepository.deleteById(id);
 
             ApiResponse res = new ApiResponse();
             res.setSuccess(true);
@@ -75,13 +75,9 @@ public List<Produit>  getProduitByIdCat(@PathVariable int id){
         }
     }
 
- */
 
-    @DeleteMapping("/produit/delete/{id}")
-    public void DeleteProduit(@PathVariable int id){
 
-      produitService.DeleteProduitById(id);
-    }
+
 
 
 
