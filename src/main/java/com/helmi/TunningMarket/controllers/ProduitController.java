@@ -58,7 +58,7 @@ public List<Produit>  getProduitByIdCat(@PathVariable int id){
     }
 
 
-
+//delete
     @DeleteMapping("/produit/delete/{id}")
     public ResponseEntity<?> DeleteProduit(@PathVariable Long id){
 
