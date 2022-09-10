@@ -29,6 +29,15 @@ public class CartController {
         return cartService.saveCart(c);
     }
 
+    @PostMapping("/commander")
+    public Cart commander (
+            @RequestParam("cart") String cart) throws JsonParseException, JsonMappingException, Exception
+    {
+        System.out.println("Save cart...");
+        CartRequest c = new ObjectMapper().readValue(cart, CartRequest.class);
+        return cartService.saveCart(c);
+    }
+
     @GetMapping("/liste-cart")
     List<Cart> findAll(){return cartService.findAllCart();}
     @GetMapping("/liste-cart/{username}")

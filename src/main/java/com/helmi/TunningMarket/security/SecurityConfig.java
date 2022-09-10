@@ -79,6 +79,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	  http.authorizeRequests().antMatchers(HttpMethod.PUT,"/api/commande/etat/{id}").hasAuthority("ADMIN");
 	  http.authorizeRequests().antMatchers(HttpMethod.POST,"/commande").hasAuthority("USER");
 	  http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/add-to-cart").hasAuthority("USER");
+	  http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/commander").hasAuthority("USER");
 	  http.authorizeRequests().antMatchers(HttpMethod.DELETE,"/api/cart/{id}").hasAuthority("USER");
       //Produits
 
