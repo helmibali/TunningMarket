@@ -164,7 +164,7 @@ public List<Produit>  getProduitByIdCat(@PathVariable int id){
     }
 
     @GetMapping(path="/imgp/{id}")
-    public byte[] getPhoto(@PathVariable("id") long id) throws Exception{
+    public byte[] getPhoto(@PathVariable("id") Long id) throws Exception{
         Produit Produit   = produitRepository.findById(id).get();
         return Files.readAllBytes(Paths.get(context.getRealPath("/ImagesProduit/")+Produit.getFilename()));
     }
