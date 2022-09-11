@@ -31,12 +31,8 @@ public class CartController {
 
     @PostMapping("/commander")
     public Cart commander (
-            @RequestParam("cart") String cart) throws JsonParseException, JsonMappingException, Exception
-    {
-        System.out.println("Save cart...");
-        CartRequest c = new ObjectMapper().readValue(cart, CartRequest.class);
-        return cartService.saveCart(c);
-    }
+            @RequestBody CartRequest cart)
+    {return cartService.saveCart(cart);}
 
     @GetMapping("/liste-cart")
     List<Cart> findAll(){return cartService.findAllCart();}

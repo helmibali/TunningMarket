@@ -36,7 +36,7 @@ public class CartService {
             cart.setPrix(cartRequest.getPrix());
             cart.setDateCreation(cartRequest.getDateCreation());
             cart.setUser(user);
-            //cart.setProduit(produit);
+            cart.setProduit(produit);
             return  cartRepository.save(cart) ;
         }
 
