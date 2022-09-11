@@ -50,7 +50,7 @@ public class Produit {
 
     @JsonIgnore
     @OneToMany
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "produit_id")
     private  List<Cart> carts;
 
 
