@@ -75,7 +75,7 @@ public class User {
 
     @JsonIgnore
     @OneToMany
-    @JoinColumn(name = "user")
+    @JoinColumn(name = "username")
     private List<Cart> carts;
 
     public List<Cart> getCarts() {

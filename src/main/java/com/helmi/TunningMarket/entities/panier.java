@@ -14,5 +14,5 @@ public class panier {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
- 
+
 }
