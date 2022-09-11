@@ -10,9 +10,14 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class panier {
+public class Panier {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
+    @ManyToOne
+    private Produit produit;
+    @ManyToOne
+    private User user;
+    private Date dateCreation;
+    private int prix;
 }
