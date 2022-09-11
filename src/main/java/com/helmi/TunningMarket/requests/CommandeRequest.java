@@ -1,11 +1,14 @@
 package com.helmi.TunningMarket.requests;
 import com.helmi.TunningMarket.entities.Cart;
+import com.helmi.TunningMarket.entities.Panier;
+
 import java.util.Date;
 import java.util.List;
 
 public class CommandeRequest {
     private long id;
     private List<Cart> carts;
+    private List<Panier> paniers;
     private String user;
     private int qty;
     private double prixCommande;
@@ -16,6 +19,13 @@ public class CommandeRequest {
     private boolean validation;
     private boolean annulation;
 
+    public List<Panier> getPaniers() {
+        return paniers;
+    }
+
+    public void setPaniers(List<Panier> paniers) {
+        this.paniers = paniers;
+    }
 
     public boolean isValidation() {
         return validation;

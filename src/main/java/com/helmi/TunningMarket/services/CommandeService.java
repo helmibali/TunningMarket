@@ -16,6 +16,8 @@ public class CommandeService {
     @Autowired
     CommandeRepository commandeRepository;
     @Autowired
+    PanierRepository panierRepository;
+    @Autowired
     UserService userService;
     @Autowired
     DelegationRepository delegationRepository;
@@ -119,6 +121,33 @@ public class CommandeService {
                             }
                             car.getCommandes().add(c);
                             return car;
+                        }
+                ).collect(Collectors.toList()));
+        return  commandeRepository.save(c) ;
+    }
+
+
+    public Commande saveCmd(CommandeRequest commandeRequest) {
+        User user = userRepository.findByUsername(commandeRequest.getUser());
+        Delegation delegation = delegationRepository.findById(commandeRequest.getDelegation()).get();
+        Commande c = new Commande();
+        c.setPrixCommande(commandeRequest.getPrixCommande());
+        c.setUser(user);
+        c.setDateCreation(commandeRequest.getDateCreation());
+        c.setDelegation(delegation);
+        c.setLivraison(commandeRequest.getLivraison());
+        c.setQty(commandeRequest.getQty());
+
+        c.setAddress(commandeRequest.getAddress());
+        c.setPaniers(commandeRequest.getPaniers()
+                .stream()
+                .map(paniers ->{
+                            Panier p = paniers;
+                            if(p.getId()>0){
+                                p = panierRepository.findById(p.getId()).get();
+                            }
+                            p.getCommandes().add(c);
+                            return p;
                         }
                 ).collect(Collectors.toList()));
         return  commandeRepository.save(c) ;

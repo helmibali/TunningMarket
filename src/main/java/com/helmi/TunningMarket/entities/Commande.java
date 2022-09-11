@@ -19,6 +19,14 @@ public class Commande {
             joinColumns = @JoinColumn(name="commande_id"),
             inverseJoinColumns = @JoinColumn(name="cart_id"))
     private List<Cart> carts;
+
+    @JsonIgnoreProperties(value="commandes")
+    @ManyToMany(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+    @JoinTable(name="cart_commande",
+            joinColumns = @JoinColumn(name="commande_id"),
+            inverseJoinColumns = @JoinColumn(name="cart_id"))
+    private List<Panier> paniers;
+
     @ManyToOne
     @JoinColumn(name = "username")
     private  User user;
@@ -133,6 +141,29 @@ public class Commande {
     public Commande(Long id, List<Cart> carts, User user, int qty, double prixCommande, Date dateCreation, String livraison, boolean validation, boolean annulation, Delegation delegation, String address) {
         this.id = id;
         this.carts = carts;
+        this.user = user;
+        this.qty = qty;
+        this.prixCommande = prixCommande;
+        this.dateCreation = dateCreation;
+        this.livraison = livraison;
+        this.validation = validation;
+        this.annulation = annulation;
+        this.delegation = delegation;
+        this.address = address;
+    }
+
+    public List<Panier> getPaniers() {
+        return paniers;
+    }
+
+    public void setPaniers(List<Panier> paniers) {
+        this.paniers = paniers;
+    }
+
+    public Commande(Long id, List<Cart> carts, List<Panier> paniers, User user, int qty, double prixCommande, Date dateCreation, String livraison, boolean validation, boolean annulation, Delegation delegation, String address) {
+        this.id = id;
+        this.carts = carts;
+        this.paniers = paniers;
         this.user = user;
         this.qty = qty;
         this.prixCommande = prixCommande;

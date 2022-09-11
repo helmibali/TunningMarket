@@ -58,7 +58,7 @@ public class CommandeController{
     {
         System.out.println("Save commande...");
         CommandeRequest c = new ObjectMapper().readValue(commande, CommandeRequest.class);
-        return commandeService.saveCart(c);
+        return commandeService.saveCmd(c);
     }
 
     @PutMapping("/commande/etat/{id}")
