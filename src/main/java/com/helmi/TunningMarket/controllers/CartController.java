@@ -29,7 +29,7 @@ public class CartController {
         return cartService.saveCart(c);
     }
 
-    @PostMapping("/commander")
+    @PostMapping("/c")
     public Cart commander (
             @RequestBody CartRequest cart)
     {return cartService.saveCart(cart);}
