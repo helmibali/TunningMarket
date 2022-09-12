@@ -55,7 +55,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	  http.authorizeRequests().antMatchers(HttpMethod.GET,"/all").hasAuthority("ADMIN");
 
 //User
-
+	  http.authorizeRequests().antMatchers(HttpMethod.GET,"/api/ping").permitAll();
 	  http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/email").permitAll();
 	  http.authorizeRequests().antMatchers(HttpMethod.PUT,"/api/usertoken/{username}").permitAll();
 	  http.authorizeRequests().antMatchers(HttpMethod.PUT,"/api/useractive/{id}").hasAuthority("ADMIN");

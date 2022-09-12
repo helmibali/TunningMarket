@@ -14,6 +14,7 @@ import com.helmi.TunningMarket.services.UserService;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -51,6 +52,15 @@ public class UserRestController {
 	public List<User> getAllUsers() {
 		return userRep.findAll();
 	 }
+
+	@RestController
+	public class PingRestController {
+
+		@RequestMapping(method = RequestMethod.GET, path = "/api/ping")
+		public ResponseEntity<String> getPing() {
+			return ResponseEntity.ok("OK");
+		}
+	}
 
 
 }
