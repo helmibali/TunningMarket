@@ -44,7 +44,7 @@ public List<Marque> getAllMarques(){
 }
 
 
-@PostMapping("addMarque")
+@PostMapping("/addMarque")
     public Marque createMarque(@RequestParam("file") MultipartFile file,
  @RequestParam("marque") String marque) throws JsonParseException, JsonMappingException, Exception
 {
@@ -67,7 +67,7 @@ public List<Marque> getAllMarques(){
    return marqueRepository.save(m);
 }
 
-    @GetMapping(path="/ImgMarque/{id}")
+    @GetMapping(path="/imgmarque/{id}")
     public byte[] getPhoto(@PathVariable("id") int id) throws Exception{
         Marque Marque   = marqueRepository.findById(id);
         return Files.readAllBytes(Paths.get(context.getRealPath("/ImagesMarque/")+Marque.getFilename()));
@@ -90,7 +90,7 @@ public List<Marque> getAllMarques(){
         return marqueService.getMarqueById(id);
     }
 
-    @DeleteMapping("marque/{id}")
+    @DeleteMapping("/marque/{id}")
     public ResponseEntity<?> DeleteMarque(@PathVariable int id){
 
         try {

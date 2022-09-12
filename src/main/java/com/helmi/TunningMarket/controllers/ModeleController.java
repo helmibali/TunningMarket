@@ -22,10 +22,10 @@ public class ModeleController {
     @Autowired
     private ModeleService modeleService;
 
-    @GetMapping("modeleByMarqueId/{id}")
+    @GetMapping("/modeleByMarqueId/{id}")
     public List<Modele> getModelesByMarque_id(@PathVariable int id){ return modeleService.getModelByMarque_id(id);}
 
-    @GetMapping("modeles")
+    @GetMapping("/modeles")
     public List<Modele> getModeles(){ return modeleService.getModeles();}
 
     @GetMapping("/modele/{id}")
@@ -35,12 +35,12 @@ public class ModeleController {
 
 
 
-    @PutMapping("modele/update/{id}")
+    @PutMapping("/modele/update/{id}")
     public Modele updateModele(@RequestBody ModeleRequest modeleRequest,@PathVariable int id){
         return modeleService.updateModele(modeleRequest, id);
     }
 
-    @DeleteMapping("modele/delete/{id}")
+    @DeleteMapping("/modele/delete/{id}")
         public ResponseEntity<?> DeleteProduit(@PathVariable int id){
 
             try {
@@ -56,7 +56,7 @@ public class ModeleController {
             }
         }
 
-        @PostMapping("modele/add")
+        @PostMapping("/modele/add")
     public Modele addModele(@RequestParam String modele) throws JsonParseException, JsonMappingException, Exception {
             ModeleRequest m = new ObjectMapper().readValue(modele, ModeleRequest.class);
         return modeleService.saveModele(m);
