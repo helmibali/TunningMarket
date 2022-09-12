@@ -38,7 +38,7 @@ public class MarqueController {
 @Autowired
     ServletContext context;
 
-@GetMapping("/marque/liste")
+@GetMapping("/marques")
 public List<Marque> getAllMarques(){
     return marqueService.getMarques();
 }

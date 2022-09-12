@@ -25,7 +25,7 @@ public class ModeleController {
     @GetMapping("modeleByMarqueId/{id}")
     public List<Modele> getModelesByMarque_id(@PathVariable int id){ return modeleService.getModelByMarque_id(id);}
 
-    @GetMapping("modele/liste")
+    @GetMapping("modeles")
     public List<Modele> getModeles(){ return modeleService.getModeles();}
 
     @GetMapping("/modele/{id}")
