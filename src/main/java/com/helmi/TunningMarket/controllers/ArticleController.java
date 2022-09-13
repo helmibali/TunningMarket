@@ -9,6 +9,7 @@ import com.helmi.TunningMarket.repositories.ArticleRepository;
 import com.helmi.TunningMarket.requests.ArticleRequest;
 import com.helmi.TunningMarket.response.ApiResponse;
 import com.helmi.TunningMarket.services.ArticleService;
+import com.helmi.TunningMarket.services.FlickrServiceImpl;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletContext;
 import java.io.File;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -26,6 +28,8 @@ import java.util.List;
 @RequestMapping("/api")
 @CrossOrigin(origins = "*")
 public class ArticleController {
+    @Autowired
+    FlickrServiceImpl flickrServiceImpl;
     @Autowired
     ArticleService articleService;
     @Autowired
@@ -109,5 +113,26 @@ public class ArticleController {
     public byte[] getPhoto(@PathVariable("id") Long id) throws Exception{
         Article Article   = articleRepository.findById(id).get();
         return Files.readAllBytes(Paths.get(context.getRealPath("/ImagesArticle/")+Article.getFilename()));
+    }
+
+    @PostMapping("/articleflickr")
+    public Article createArticleWithImgflicker (@RequestParam("file") MultipartFile file, @RequestParam("article") String article)
+            throws JsonParseException, JsonMappingException, Exception
+    {
+        ArticleRequest a = new ObjectMapper().readValue(article, ArticleRequest.class);
+        /*
+        boolean isExit = new File(context.getRealPath("/ImagesArticle/")).exists();
+        if (!isExit) { new File (context.getRealPath("/ImagesArticle/")).mkdir();}
+        String filename = file.getOriginalFilename();
+        String newFileName = FilenameUtils.getBaseName(filename)+"."+FilenameUtils.getExtension(filename);
+        File serverFile = new File (context.getRealPath("/ImagesArticle/"+File.separator+newFileName));
+        try {FileUtils.writeByteArrayToFile(serverFile,file.getBytes());}
+        catch(Exception e) {e.printStackTrace();}
+
+         */
+       InputStream stream = file.getInputStream();
+       String photoUrl = flickrServiceImpl.savePhoto(stream, a.getTitle());
+        a.setFilename(photoUrl);
+        return articleService.saveArticleWithImg(a);
     }
 }

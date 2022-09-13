@@ -123,6 +123,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //Article
 	  http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/articleWithImg").hasAuthority("ADMIN");
 	  http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/articleWithImg").hasAuthority("USER");
+	  http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/articleflickr").hasAuthority("USER");
 	  http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/article").hasAuthority("ADMIN");
 	  http.authorizeRequests().antMatchers(HttpMethod.PUT,"/api/article").hasAuthority("ADMIN");
 	  http.authorizeRequests().antMatchers(HttpMethod.DELETE,"/api/article/{id}").hasAuthority("ADMIN");
@@ -139,10 +140,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	  http.authorizeRequests().antMatchers(HttpMethod.POST,"/api/comment1").hasAuthority("USER");
 	  http.authorizeRequests().antMatchers(HttpMethod.PUT,"/api/comment/{id}").hasAuthority("USER");
 	  http.authorizeRequests().antMatchers(HttpMethod.DELETE,"/api/comment/{id}").hasAuthority("USER");
+
   //Contact
 	  http.authorizeRequests().antMatchers(HttpMethod.GET,"/api/contact/liste").hasAuthority("ADMIN");
-
-
 	  http.authorizeRequests().anyRequest().authenticated();
 	  http.addFilter(new  JWTAuthenticationFilter (authenticationManager())) ;
 	  http.addFilterBefore(new JWTAuthorizationFilter(),UsernamePasswordAuthenticationFilter.class);
