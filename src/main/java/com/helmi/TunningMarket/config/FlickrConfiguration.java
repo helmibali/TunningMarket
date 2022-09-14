@@ -1,23 +1,12 @@
 package com.helmi.TunningMarket.config;
 
 import com.flickr4java.flickr.Flickr;
-import com.flickr4java.flickr.FlickrException;
 import com.flickr4java.flickr.REST;
 import com.flickr4java.flickr.RequestContext;
 import com.flickr4java.flickr.auth.Auth;
 import com.flickr4java.flickr.auth.Permission;
-import com.github.scribejava.apis.FlickrApi;
-import com.github.scribejava.core.builder.ServiceBuilder;
-import com.github.scribejava.core.model.OAuth1AccessToken;
-import com.github.scribejava.core.model.OAuth1RequestToken;
-import com.github.scribejava.core.oauth.OAuth10aService;
-import com.google.api.client.util.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.io.IOException;
-import java.util.Scanner;
-import java.util.concurrent.ExecutionException;
 
 @Configuration
 public class FlickrConfiguration {
@@ -55,17 +44,18 @@ public class FlickrConfiguration {
     }
 
  */
-private String apiKey="f04f6d3e4794006ced56e2c0800c726a";
+    private String apiKey="f04f6d3e4794006ced56e2c0800c726a";
     private String apiSecret="79560874db9d9c85";
     private String appKey="72157720857023342-3b41200aed964143";
     private String appSecret="f7a6bbd5a2e26bf9";
-    @Bean
-public Flickr getFlickr(){
-       Flickr flickr =new Flickr(apiKey,apiSecret,new REST() );
+
+       @Bean
+        public Flickr getFlickr(){
+       Flickr flickr =new Flickr("f04f6d3e4794006ced56e2c0800c726a","79560874db9d9c85",new REST() );
         Auth auth = new Auth();
         auth.setPermission(Permission.DELETE);
-        auth.setToken(appKey);
-        auth.setTokenSecret(appSecret);
+        auth.setToken("72157720857023342-3b41200aed964143");
+        auth.setTokenSecret("f7a6bbd5a2e26bf9");
         RequestContext requestContext = RequestContext.getRequestContext();
         requestContext.setAuth(auth);
 

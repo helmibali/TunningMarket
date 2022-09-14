@@ -60,4 +60,38 @@ public class ArticleService {
         article.setUser(user);
         return articleRepository.save(article);}
 
+    /*
+    public void  saveProductToDB(MultipartFile file,String name,String description
+            ,int price)
+    {
+        Product p = new Product();
+        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        if(fileName.contains(".."))
+        {
+            System.out.println("not a a valid file");
+        }
+        try {
+            p.setImage(Base64.getEncoder().encodeToString(file.getBytes()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        p.setDescription(description);
+
+        p.setName(name);
+        p.setPrice(price);
+
+        productRepo.save(p);
+    }
+
+     */
+
+    public Article saveArticle2(ArticleRequest articleRequest){
+        User user = userRepository.findByUsername(articleRequest.getUser());
+        Article article = new Article();
+        article.setTitle(articleRequest.getTitle());
+        article.setDateCreation(articleRequest.getDateCreation());
+        // article.setFilename(articleRequest.getFilename());
+        article.setText(articleRequest.getText());
+        article.setUser(user);
+        return articleRepository.save(article);}
 }
